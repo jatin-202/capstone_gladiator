@@ -8,5 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
- //write required code here!
+
+  constructor(public authService: AuthService, private router: Router) {}
+
+  get role(): string {
+    return this.authService.getRole;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    location.reload();
+  }
 }

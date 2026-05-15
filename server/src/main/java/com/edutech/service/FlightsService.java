@@ -27,6 +27,9 @@ public class FlightsService {
     }
 
     public Flights saveFlight(Flights flight) {
+        if (flight.getDepartureDate() != null && flight.getDepartureDate().isBefore(LocalDate.now())) {
+            throw new IllegalStateException("Departure date cannot be in the past.");
+        }
         return flightsRepository.save(flight);
     }
 

@@ -1,8 +1,11 @@
 export interface LoginRequest {
-  //write required code here!
+  username: string;
+  password: string;
 }
 
 export interface AssignManagerRequest {
- 
-  //write required code here!
+  flightId: number;
+  pilotId: number;
+  scheduledDate: string;
+  assignStatus: string;
 }

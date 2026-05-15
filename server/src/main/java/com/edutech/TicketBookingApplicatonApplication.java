@@ -2,6 +2,7 @@ package com.edutech;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class TicketBookingApplicatonApplication {
@@ -9,6 +10,8 @@ public class TicketBookingApplicatonApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TicketBookingApplicatonApplication.class, args);
 		//test1;
+		// System.out.println(new BCryptPasswordEncoder().encode("admin123"));
+
 	}
 
 } 

@@ -9,9 +9,38 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent  {
+export class LoginComponent implements OnInit {
 
-  //write required code here!
-  //adi test
-  
+  loginForm!: FormGroup;
+  showError = false;
+  errorMessage = '';
+
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
   }
+
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+
+    this.httpService.login(this.loginForm.value).subscribe({
+      next: (res: any) => {
+        this.authService.saveAuth(res.token, res.role, res.userId?.toString());
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.showError = true;
+        this.errorMessage = err?.error?.message || 'Invalid credentials.';
+      }
+    });
+  }
+}

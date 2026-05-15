@@ -23,7 +23,6 @@ import com.edutech.util.JwtUtil;
 @CrossOrigin(origins = "*")
 public class AuthController {
 
-    // Injecting service
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -35,23 +34,42 @@ public class AuthController {
 
     // Register a new user (ADMIN / PASSENGER / PILOT)
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody User user) {
-        User saved = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<?> register(@Valid @RequestBody User user) {
+        try {
+            User saved = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+
+        } catch (Exception e) {
+            e.printStackTrace(); // 🔥 prints actual error in console
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(java.util.Collections.singletonMap("message", e.getMessage()));
+        }
     }
 
     // Authenticate and return a JWT token
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(), request.getPassword()));
 
-        User user = userService.findByUsername(request.getUsername());
-        String token = jwtUtil.generateToken(request.getUsername());
+            User user = userService.findByUsername(request.getUsername());
+            String token = jwtUtil.generateToken(
+                    request.getUsername(), user.getRole().name());
 
-        LoginResponse response = new LoginResponse(
-                token, user.getUsername(), user.getEmail(), user.getRole(), user.getId());
-        return ResponseEntity.ok(response);
+            LoginResponse response = new LoginResponse(
+                    token, user.getUsername(), user.getEmail(),
+                    user.getRole(), user.getId());
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(java.util.Collections.singletonMap("message", "Invalid username or password"));
+        }
     }
 
     // Return the currently authenticated user's profile

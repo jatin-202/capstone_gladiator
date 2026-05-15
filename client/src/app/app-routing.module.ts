@@ -9,9 +9,19 @@ import { BookingsComponent } from './component/bookings/bookings.component';
 import { AssignPilotComponent } from './component/assign-pilot/assign-pilot.component';
 import { ProfilComponent } from './component/profil/profil.component';
 import { ViewuserComponent } from './component/viewuser/viewuser.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  //write required code here!
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'add_flights', component: FlightComponent, canActivate: [AuthGuard] },
+  { path: 'view_all_user', component: ViewuserComponent, canActivate: [AuthGuard] },
+  { path: 'assign_pilot', component: AssignPilotComponent, canActivate: [AuthGuard] },
+  { path: 'search_flight', component: FlightSearchComponent, canActivate: [AuthGuard] },
+  { path: 'my_booking', component: BookingsComponent, canActivate: [AuthGuard] },
+  { path: 'my_profile', component: ProfilComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -1,24 +1,27 @@
-import { Flights, FlightStatus } from './flights';
+import { Flights } from './flights';
 import { User } from './user';
 
 export enum PaymentStatus {
-
-  //write required code here!
-  //test fonrtenf
-  
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAILED = 'FAILED'
 }
 
 export enum BookingStatus {
-
-  //write required code here!
- 
+  CONFIRMED = 'CONFIRMED',
+  CANCELLED = 'CANCELLED'
 }
-
 
 export interface Bookings {
-
-  //write required code here!
-  
+  id?: number;
+  user?: User;
+  flight?: Flights;
+  bookingDate?: string;
+  seatNumbers?: string;
+  paymentStatus?: PaymentStatus;
+  pnr?: string;
+  status?: string;
 }
+
 export { User };
 

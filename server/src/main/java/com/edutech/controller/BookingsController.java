@@ -20,7 +20,7 @@ import com.edutech.service.BookingService;
 @CrossOrigin(origins = "*")
 public class BookingsController {
 
-    // Injecting service
+    
     @Autowired
     private BookingService bookingService;
 
@@ -29,9 +29,11 @@ public class BookingsController {
 
     // Passenger: Book seats on a flight
     @PostMapping("/book-seats")
-    public ResponseEntity<String> bookSeats(@RequestBody BookSeatsRequest request) {
+    public ResponseEntity<Map<String, String>> bookSeats(@RequestBody BookSeatsRequest request) {
         bookingService.bookSeats(request.getFlightId(), request.getSeatNumbers(), request.getUserId());
-        return ResponseEntity.ok("Booking Successful");
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Booking Successful");
+        return ResponseEntity.ok(response);
     }
 
     // Passenger: Get my own booking history
@@ -50,7 +52,7 @@ public class BookingsController {
     // Passenger: Update a booking status (e.g., CANCELLED)
     @PutMapping("/{id}/status")
     public ResponseEntity<Map<String, String>> updateBookingStatus(@PathVariable Long id,
-            @RequestBody Map<String, String> body) {
+                                                                    @RequestBody Map<String, String> body) {
         String status = body.get("status");
         bookingService.updateBookingStatus(id, status);
         Map<String, String> response = new HashMap<>();

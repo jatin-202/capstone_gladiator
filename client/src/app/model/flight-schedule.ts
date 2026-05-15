@@ -1,10 +1,18 @@
-import { Flights, FlightStatus } from './flights';
-import { User } from './bookings'; // Assuming User is defined in bookings.ts or a separate user.ts
+import { Flights } from './flights';
+import { User } from './bookings';
 
 export enum ScheduleStatus {
-  //write required code here!
+  PENDING = 'PENDING',
+  CONFIRMED = 'CONFIRMED',
+  COMPLETED = 'COMPLETED',
+  ASSIGNED = 'ASSIGNED'
 }
 
 export interface FlightSchedule {
-  //write required code here!
+  id?: number;
+  flight?: Flights;
+  pilot?: User;
+  scheduledDate?: string;
+  status?: string;
+  assignStatus?: string;
 }
