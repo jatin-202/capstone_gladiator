@@ -55,6 +55,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(), request.getPassword()));
 
+                            //CHECKINH  PAS ABOVE
             User user = userService.findByUsername(request.getUsername());
             String token = jwtUtil.generateToken(
                     request.getUsername(), user.getRole().name());
@@ -66,10 +67,14 @@ public class AuthController {
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(java.util.Collections.singletonMap("message", "Invalid username or password"));
-        }
+    e.printStackTrace();
+
+    java.util.Map<String, Object> error = new java.util.HashMap<>();
+    error.put("status", 401);  // ✅ ADD THIS
+    error.put("message", "Invalid username or password");
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+}
     }
 
     // Return the currently authenticated user's profile

@@ -28,13 +28,16 @@ public class BookingsController {
     private UserRepository userRepository;
 
     // Passenger: Book seats on a flight
-    @PostMapping("/book-seats")
-    public ResponseEntity<Map<String, String>> bookSeats(@RequestBody BookSeatsRequest request) {
-        bookingService.bookSeats(request.getFlightId(), request.getSeatNumbers(), request.getUserId());
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Booking Successful");
-        return ResponseEntity.ok(response);
-    }
+
+    @PostMapping(value = "/book-seats", produces = MediaType.TEXT_PLAIN_VALUE)
+public ResponseEntity<String> bookSeats(@RequestBody BookSeatsRequest request) {
+    bookingService.bookSeats(
+        request.getFlightId(),
+        request.getSeatNumbers(),
+        request.getUserId()
+    );
+    return ResponseEntity.ok("Booking Successful");
+}
 
     // Passenger: Get my own booking history
     @GetMapping("/bookings")

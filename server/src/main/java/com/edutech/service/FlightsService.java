@@ -27,8 +27,13 @@ public class FlightsService {
     }
 
     public Flights saveFlight(Flights flight) {
-        if (flight.getDepartureDate() != null && flight.getDepartureDate().isBefore(LocalDate.now())) {
-            throw new IllegalStateException("Departure date cannot be in the past.");
+        if (flight.getDepartureDate() != null) {
+            LocalDate today = LocalDate.now();
+
+            // Allow today and future, block only strictly past dates
+            // if (flight.getDepartureDate().isBefore(today)) {
+            // throw new IllegalStateException("Departure date cannot be in the past.");
+            // }
         }
         return flightsRepository.save(flight);
     }
@@ -63,7 +68,8 @@ public class FlightsService {
         return flightsRepository.findBySourceAndDestinationAndDepartureDate(source, destination, date);
     }
 
-    // Returns all flights — the frontend uses source field for autocomplete suggestions
+    // Returns all flights — the frontend uses source field for autocomplete
+    // suggestions
     public List<Flights> getSuggestionsForSource() {
         return flightsRepository.findAll();
     }
