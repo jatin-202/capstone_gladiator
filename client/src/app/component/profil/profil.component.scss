@@ -1,70 +1,143 @@
 // ============================================================
-// MY PROFILE — Premium profile card
+// PROFILE PAGE — Premium Airline Style
 // ============================================================
 
-h3 { margin-bottom: 1.5rem; }
+$gold: #f5c542;
+$dark: #050816;
+$card-surface: rgba(255, 255, 255, 0.04);
+$border: rgba(245, 197, 66, 0.15);
+$text-muted: rgba(255, 255, 255, 0.6);
 
-// Profile card
-.card {
-  border-top: 3px solid var(--ai-primary) !important;
+:host {
+  display: block;
+}
+
+// PAGE BACKGROUND
+.profile-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+
+  background:
+    radial-gradient(circle at top left, rgba(245, 197, 66, 0.08), transparent 35%),
+    linear-gradient(135deg, #040714 0%, #070b18 50%, #02040c 100%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: #fff;
+}
+
+// HEADER
+h3 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 40px;
+
+  background: linear-gradient(90deg, #fff, $gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+// PROFILE CARD
+.profile-card {
+  width: 100%;
+  max-width: 420px;
+
+  background: $card-surface;
+  border: 1px solid $border;
+  border-radius: 18px;
+
+  backdrop-filter: blur(14px);
+
+  padding: 30px 25px 20px;
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
+
+  text-align: center;
   position: relative;
-  overflow: visible;
-
-  // Avatar initial circle
-  &::before {
-    content: '✈';
-    position: absolute;
-    top: -1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 3rem;
-    height: 3rem;
-    background: linear-gradient(135deg, var(--ai-primary), var(--ai-primary-dark));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    color: #FFF;
-    box-shadow: 0 4px 12px rgba(140,29,24,0.3);
-    line-height: 3rem;
-    text-align: center;
-  }
 }
 
-// Profile detail table
-.table-borderless {
-  margin-top: 0.5rem;
+// ICON HEADER
+.profile-header {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
 
-  tbody tr {
-    border: none;
+  width: 55px;
+  height: 55px;
 
-    th {
-      width: 40%;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--ai-text-muted);
-      padding: 0.75rem 0.5rem;
-      vertical-align: middle;
-    }
+  border-radius: 50%;
 
-    td {
-      font-weight: 500;
-      color: var(--ai-text);
-      padding: 0.75rem 0.5rem;
-      vertical-align: middle;
-    }
+  background: linear-gradient(135deg, $gold, #d4a100);
 
-    &:not(:last-child) {
-      border-bottom: 1px solid var(--ai-border-light) !important;
-    }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.3rem;
+  color: #000;
+
+  box-shadow: 0 6px 18px rgba(245, 197, 66, 0.4);
 }
 
-// Role badge inside table
-.badge.bg-primary {
+// TABLE
+.profile-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+// ROWS
+.profile-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+// LABEL
+.profile-table th {
+  text-align: left;
+  padding: 14px 10px;
+
   font-size: 0.72rem;
-  padding: 0.35em 0.875em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  color: $text-muted;
+}
+
+// VALUE
+.profile-table td {
+  text-align: right;
+  padding: 14px 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+
+  color: #ffffff; // ✅ FIX MAIN ISSUE
+}
+
+// ROLE BADGE
+.role-badge {
+  background: rgba(245, 197, 66, 0.15);
+  color: $gold;
+
+  padding: 5px 12px;
+  border-radius: 20px;
+
+  font-size: 0.75rem;
+  font-weight: 700;
+
+  letter-spacing: 0.04em;
+}
+
+// MOBILE
+@media (max-width: 500px) {
+  .profile-card {
+    padding: 25px 18px;
+  }
+
+  .profile-table td,
+  .profile-table th {
+    padding: 12px 6px;
+  }
 }

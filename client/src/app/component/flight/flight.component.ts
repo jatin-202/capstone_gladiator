@@ -17,25 +17,34 @@ export class FlightComponent implements OnInit {
   errorMessage = '';
   today = new Date().toISOString().split('T')[0];
 
-  constructor(private fb: FormBuilder, private httpService: HttpService, public authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.flightForm = this.fb.group({
-      flight_number: ['', Validators.required],
-      flight_name: ['', Validators.required],
+      flight_number: ['', [Validators.required, Validators.minLength(3)]],
+      flight_name: ['', [Validators.required, Validators.minLength(3)]],
       source: ['', Validators.required],
       destination: ['', Validators.required],
       departureDate: ['', Validators.required],
       departureTime: ['', Validators.required],
       arrivalTime: ['', Validators.required],
       totalSeats: ['', [Validators.required, Validators.min(1)]],
-      available_seats: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(0.01)]],
+      available_seats: ['', [Validators.required, Validators.min(0)]],
+      price: ['', [Validators.required, Validators.min(1)]],
       status: ['SCHEDULED', Validators.required],
       seats: this.fb.array([])
     });
+
     this.addSeat();
     this.loadFlights();
+  }
+
+  get f() {
+    return this.flightForm.controls;
   }
 
   get seats(): FormArray {
@@ -44,15 +53,16 @@ export class FlightComponent implements OnInit {
 
   addSeat(): void {
     const seatGroup = this.fb.group({
-      seatNumber: [''],
-      rowLabel: [''],
-      columnNumber: [1],
-      price: [0],
+      seatNumber: ['', Validators.required],
+      rowLabel: ['', Validators.required],
+      columnNumber: [1, [Validators.required, Validators.min(1)]],
+      price: [0, [Validators.required, Validators.min(0)]],
       isAvailable: [true],
       isXL: [false],
       isBlocked: [false],
       isEmergencyExist: [false]
     });
+
     this.seats.push(seatGroup);
   }
 
@@ -62,13 +72,16 @@ export class FlightComponent implements OnInit {
 
   loadFlights(): void {
     this.httpService.getAllFlights().subscribe({
-      next: (data) => { this.flights = data; },
-      error: () => { this.showError = true; }
+      next: (data) => this.flights = data,
+      error: () => this.showError = true
     });
   }
 
   onSubmit(): void {
-    if (this.flightForm.invalid) return;
+    if (this.flightForm.invalid) {
+      this.flightForm.markAllAsTouched();
+      return;
+    }
 
     this.httpService.createFlight(this.flightForm.value).subscribe({
       next: () => {

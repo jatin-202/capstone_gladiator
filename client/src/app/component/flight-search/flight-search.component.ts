@@ -24,7 +24,11 @@ export class FlightSearchComponent implements OnInit {
   errorMessage = '';
   seats: any[] = [];
 
-  constructor(private fb: FormBuilder, private httpService: HttpService, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -40,6 +44,7 @@ export class FlightSearchComponent implements OnInit {
     this.httpService.suggestSource().subscribe({
       next: (data: any[]) => { this.sourceList = data.map(f => f.source); }
     });
+
     this.httpService.suggestDestination().subscribe({
       next: (data: any[]) => { this.destinationList = data.map(f => f.destination); }
     });
@@ -62,12 +67,15 @@ export class FlightSearchComponent implements OnInit {
     const c = this.searchForm.get('child')?.value || 0;
     const i = this.searchForm.get('infant')?.value || 0;
     const cls = this.searchForm.get('travelClass')?.value;
+
     return `${a} Adult${a !== 1 ? 's' : ''}${c ? ', ' + c + ' Child' : ''}${i ? ', ' + i + ' Infant' : ''} - ${cls}`;
   }
 
   search(): void {
     if (this.searchForm.invalid) return;
+
     const { source, destination, date } = this.searchForm.value;
+
     this.httpService.searchFlights(source, destination, date).subscribe({
       next: (data) => {
         this.flights = data;
@@ -82,10 +90,21 @@ export class FlightSearchComponent implements OnInit {
 
   viewFlight(flight: any): void {
     this.selectedFlight = flight;
+
     const adult = this.searchForm.get('adult')?.value || 1;
     const child = this.searchForm.get('child')?.value || 0;
     const infant = this.searchForm.get('infant')?.value || 0;
-    this.totalPrice = adult * flight.price + child * flight.price * 0.75 + infant * flight.price * 0.5;
+
+    // ✅ ✅ ADD THIS BLOCK (IMPORTANT)
+    const totalTravellers = adult + child + infant;
+    localStorage.setItem('travellerCount', totalTravellers.toString());
+    // ✅ ✅ END BLOCK
+
+    this.totalPrice =
+      adult * flight.price +
+      child * flight.price * 0.75 +
+      infant * flight.price * 0.5;
+
     this.httpService.getSeats(flight.id).subscribe({
       next: (data) => { this.seats = data; }
     });
@@ -96,15 +115,40 @@ export class FlightSearchComponent implements OnInit {
   }
 
   bookSelectedFlight(): void {
+
     const userId = Number(this.authService.getUserId());
-    const seatList = this.seatNumbers ? [this.seatNumbers] : [];
+
+    const seatList = this.seatNumbers
+      ? this.seatNumbers.split(',').map(s => s.trim())
+      : [];
+
+    // ✅ ✅ ADD THIS BLOCK (DO NOT REMOVE ANYTHING ELSE)
+    const requiredSeats = Number(localStorage.getItem('travellerCount') || 1);
+
+    if (seatList.length !== requiredSeats) {
+      this.showError = true;
+      this.errorMessage = `Please select exactly ${requiredSeats} seats`;
+      return;
+    }
+    // ✅ ✅ END BLOCK
+
     this.httpService.bookSeats(this.selectedFlight.id, seatList, userId).subscribe({
-      next: () => {
+      next: (res) => {
         this.showMessage = true;
         this.showError = false;
         this.responseMessage = 'Booking successful!';
       },
       error: (err) => {
+
+        console.error('ERROR RESPONSE:', err);
+
+        if (err.status === 200 || err.status === 204) {
+          this.showMessage = true;
+          this.showError = false;
+          this.responseMessage = 'Booking successful!';
+          return;
+        }
+
         this.showError = true;
         this.errorMessage = err?.error?.message || 'Booking failed.';
       }

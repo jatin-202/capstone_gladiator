@@ -1,57 +1,125 @@
-<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card p-4 shadow" style="width: 400px;">
-    <h4 class="text-center mb-1">✈ CREATE ACCOUNT</h4>
-    <p class="text-center text-muted mb-3">Please enter your details</p>
+<div class="register-page">
 
-    <div class="alert alert-success" *ngIf="showMessage">{{ responseMessage }}</div>
-    <div class="alert alert-danger" *ngIf="showError">{{ errorMessage }}</div>
+  <!-- VIDEO -->
+  <video autoplay muted loop playsinline preload="auto" class="video-bg"
+    src="assets/videos/32975-394513987.mp4">
+  </video>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input type="text" class="form-control" formControlName="username" placeholder="admin">
-        <div class="text-danger small" *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
-          Username is required
+  <div class="overlay"></div>
+
+  <div class="card-wrapper">
+
+    <a routerLink="/login" class="back-btn">← Back</a>
+
+    <div class="register-card">
+
+      <div class="title">CREATE ACCOUNT</div>
+      <p class="subtitle">Please enter your details</p>
+
+      <!-- ALERTS -->
+      <div class="alert-success" *ngIf="showMessage">{{ responseMessage }}</div>
+      <div class="alert-error" *ngIf="showError">{{ errorMessage }}</div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+        <!-- ROW 1 -->
+        <div class="row">
+
+          <!-- USERNAME -->
+          <div class="input-group">
+            <label>Username</label>
+
+            <input type="text"
+              formControlName="username"
+              placeholder="Enter username"
+              [class.invalid]="f.username.touched && f.username.invalid">
+
+            <div class="error-text" *ngIf="f.username.touched && f.username.invalid">
+              <div *ngIf="f.username.errors?.['required']">Username is required</div>
+              <div *ngIf="f.username.errors?.['minlength']">Minimum 3 characters</div>
+              <div *ngIf="f.username.errors?.['maxlength']">Max 20 characters</div>
+              <div *ngIf="f.username.errors?.['pattern']">Only letters, numbers & underscore</div>
+            </div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="input-group">
+            <label>Email</label>
+
+            <input type="email"
+              formControlName="email"
+              placeholder="you@example.com"
+              [class.invalid]="f.email.touched && f.email.invalid">
+
+            <div class="error-text" *ngIf="f.email.touched && f.email.invalid">
+              <div *ngIf="f.email.errors?.['required']">Email is required</div>
+              <div *ngIf="f.email.errors?.['email']">Enter a valid email</div>
+            </div>
+          </div>
+
         </div>
-      </div>
 
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" formControlName="email" placeholder="admin@gmail.com">
-        <div class="text-danger small" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
-          Email is required
+        <!-- ROW 2 -->
+        <div class="row">
+
+          <!-- PASSWORD -->
+          <div class="input-group">
+            <label>Password</label>
+
+            <input type="password"
+              formControlName="password"
+              placeholder="••••••••"
+              [class.invalid]="f.password.touched && f.password.invalid">
+
+            <div class="error-text" *ngIf="f.password.touched && f.password.invalid">
+              <div *ngIf="f.password.errors?.['required']">Password is required</div>
+              <div *ngIf="f.password.errors?.['minlength']">Minimum 8 characters</div>
+              <div *ngIf="f.password.errors?.['pattern']">
+                Must include uppercase, lowercase, number & special character
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTACT -->
+          <div class="input-group">
+            <label>Contact Number</label>
+
+            <input type="number"
+              formControlName="contactNumber"
+              placeholder="1234567890"
+              [class.invalid]="f.contactNumber.touched && f.contactNumber.invalid">
+
+            <div class="error-text" *ngIf="f.contactNumber.touched && f.contactNumber.invalid">
+              Must be 10 digit mobile number
+            </div>
+          </div>
+
         </div>
-        <div class="text-danger small" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
-          Enter a valid email
+
+        <!-- ROLE -->
+        <div class="input-group">
+          <label>Role</label>
+
+          <select formControlName="role">
+            <option value="PASSENGER">PASSENGER</option>
+            <option value="PILOT">PILOT</option>
+          </select>
         </div>
-      </div>
 
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" formControlName="password" placeholder="••••••••">
-        <div class="text-danger small" *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-          Password is required
-        </div>
-      </div>
+        <!-- SUBMIT -->
+        <button type="submit" class="btn-gold"
+          [disabled]="registerForm.invalid">
+          Register →
+        </button>
 
-      <div class="mb-3">
-        <label class="form-label">Contact Number</label>
-        <input type="number" class="form-control" formControlName="contactNumber" placeholder="1234567890">
-      </div>
+      </form>
 
-      <div class="mb-3">
-        <label class="form-label">Role</label>
-        <select class="form-select" formControlName="role">
-          <option value="PASSENGER">PASSENGER</option>
-          <option value="PILOT">PILOT</option>
-        </select>
-      </div>
+      <!-- LOGIN LINK -->
+      <p class="login-link">
+        Already have an account?
+        <a routerLink="/login"><strong>Login</strong></a>
+      </p>
 
-      <button type="submit" class="btn btn-primary w-100">Register</button>
-    </form>
-
-    <p class="text-center mt-3">
-      Already have an account? <a routerLink="/login">Login</a>
-    </p>
+    </div>
   </div>
 </div>

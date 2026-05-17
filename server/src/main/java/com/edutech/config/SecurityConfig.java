@@ -31,13 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    //fetch user details and matches password using password encoder
+    // Fetch user details and match password
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
-    //used to check username and password and verify wheather login is valid or not 
+    // Authentication manager bean
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -54,26 +54,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                // Open endpoints — no token needed
+
+                // ✅ Public APIs
                 .antMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
-                // Admin-only: create / update flights
+
+                // ✅ ✅ ADD THIS (FIX FOR YOUR ISSUE)
+                // Allow GET APIs for ADMIN and PILOT
+                .antMatchers(HttpMethod.GET, "/api/flights").hasAnyAuthority("ADMIN", "PILOT")
+                .antMatchers(HttpMethod.GET, "/api/pilot/schedule/**").hasAnyAuthority("ADMIN", "PILOT")
+
+                // ✅ Admin-only: create / update flights
                 .antMatchers(HttpMethod.POST, "/api/flights").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/api/flights/**").hasAuthority("ADMIN")
-                // Admin-only: all bookings list
+
+                // ✅ Admin-only: bookings list
                 .antMatchers("/api/booking/bookingList").hasAuthority("ADMIN")
-                // Admin-only: assign pilot
+
+                // ✅ Admin-only: assign pilot
                 .antMatchers(HttpMethod.POST, "/api/pilot/schedule/**").hasAuthority("ADMIN")
-                // Admin or Pilot: update schedule status
+
+                // ✅ Admin or Pilot: update schedule status
                 .antMatchers(HttpMethod.PUT, "/api/pilot/schedule/**").hasAnyAuthority("ADMIN", "PILOT")
-                // All other API calls require a valid token
+
+                // ✅ All other APIs require login
                 .antMatchers("/api/**").authenticated()
+
             .and()
             .exceptionHandling()
-                // Return 403 when no valid token is provided on a protected endpoint
                 .authenticationEntryPoint(
                         (req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
             .and()
             .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
-//jwt filter- check token in every request before going to controller

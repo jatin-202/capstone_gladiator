@@ -1,44 +1,96 @@
-<div class="container">
-  <h3 class="mb-3">My Bookings</h3>
+<div class="booking-page">
 
-  <div class="alert alert-success" *ngIf="showMessage">{{ responseMessage }}</div>
-  <div class="alert alert-danger" *ngIf="showError">{{ errorMessage }}</div>
+  <div class="alert alert-success" *ngIf="showMessage">
+    <h3>My Bookings</h3>
+    {{ responseMessage }}
+  </div>
+
+  <div class="alert alert-danger" *ngIf="showError">
+    {{ errorMessage }}
+  </div>
 
   <div class="card p-3">
     <h6>Booking Information</h6>
-    <table class="table table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>Sr#</th><th>PNR</th><th>Flight No</th><th>Seats</th>
-          <th>Source</th><th>Destination</th><th>Departure</th><th>Arrival</th>
-          <th>Price</th><th>Status</th><th>Payment</th><th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let b of bookings; let i = index">
-          <td>{{ i+1 }}</td>
-          <td>{{ b.pnr }}</td>
-          <td>{{ b.flight?.flight_number }}</td>
-          <td>{{ b.seatNumbers }}</td>
-          <td>{{ b.flight?.source }}</td>
-          <td>{{ b.flight?.destination }}</td>
-          <td>{{ b.flight?.departureTime }}</td>
-          <td>{{ b.flight?.arrivalTime }}</td>
-          <td>₹{{ b.flight?.price }}</td>
-          <td>
-            <span class="badge" [class.bg-success]="b.status === 'CONFIRMED'" [class.bg-danger]="b.status === 'CANCELLED'">
-              {{ b.status }}
-            </span>
-          </td>
-          <td>
-            <span class="badge bg-info text-dark">{{ b.paymentStatus }}</span>
-          </td>
-          <td>
-            <button class="btn btn-sm btn-warning me-1" (click)="cancelBooking(b.id)">Cancel</button>
-            <button class="btn btn-sm btn-success" (click)="downloadTicket(b.id)">Download</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="table-wrapper">
+      <table class="booking-table">
+
+        <thead>
+          <tr>
+            <th>Sr#</th>
+            <th>PNR</th>
+            <th>Flight No</th>
+            <th>Seats</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Payment</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let b of bookings; let i = index">
+
+            <td>{{ i+1 }}</td>
+
+            <td>{{ b.pnr }}</td>
+
+            <td>{{ b.flight?.flight_number }}</td>
+
+            <td>{{ b.seatNumbers }}</td>
+
+            <td>{{ b.flight?.source }}</td>
+
+            <td>{{ b.flight?.destination }}</td>
+
+            <td>{{ b.flight?.departureTime }}</td>
+
+            <td>{{ b.flight?.arrivalTime }}</td>
+
+            <td>
+              ₹{{ b.flight?.price * (b.seatNumbers?.split(',').length || 1) }}
+            </td>
+
+            <!-- STATUS -->
+            <td>
+              <span class="status-badge" [ngClass]="{
+                  'status-confirmed': b.status === 'CONFIRMED',
+                  'status-cancelled': b.status === 'CANCELLED'
+                }">
+                {{ b.status }}
+              </span>
+            </td>
+
+            <!-- PAYMENT -->
+            <td>
+              <span class="payment-badge">
+                {{ b.paymentStatus }}
+              </span>
+            </td>
+
+            <!-- ACTION -->
+            <td>
+              <div class="action-group">
+
+                <button class="action-btn cancel" [disabled]="b.status === 'CANCELLED'" (click)="cancelBooking(b.id)">
+                  {{ b.status === 'CANCELLED' ? 'Cancelled' : 'Cancel' }}
+                </button>
+
+                <button class="action-btn download" (click)="downloadTicket(b.id)">
+                  Download
+                </button>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
   </div>
+
 </div>

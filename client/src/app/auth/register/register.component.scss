@@ -1,82 +1,307 @@
 // ============================================================
-// REGISTER PAGE — Mirrors login card with extra fields
+// REGISTER — Video BG + No Scroll + Compact Card
 // ============================================================
 
-// Full-page wrapper
-.d-flex.justify-content-center.align-items-center {
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: #05080f;
+}
+
+$gold: #ffd700;
+$dark: #0b1220;
+$card-bg: #111827;
+$text-muted: rgba(255, 255, 255, 0.5);
+
+.register-page {
+  width: 100%;
+  height: 100%;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(ellipse at 70% 20%, rgba(140,29,24,0.06) 0%, transparent 60%),
-              radial-gradient(ellipse at 30% 80%, rgba(201,168,76,0.05) 0%, transparent 60%),
-              var(--ai-bg);
+  background: $dark;
+}
 
-  &::before {
-    content: '✈';
-    position: absolute;
-    top: 10%;
-    right: 8%;
-    font-size: 9rem;
-    opacity: 0.03;
-    color: var(--ai-primary);
-    transform: rotate(20deg);
-    pointer-events: none;
-    user-select: none;
-  }
+// ─── Video ───
+.video-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  animation: fadeInVideo 1.5s ease forwards;
+}
 
-  &::after {
-    content: '✈';
-    position: absolute;
-    bottom: 10%;
-    left: 8%;
-    font-size: 6rem;
-    opacity: 0.03;
-    color: var(--ai-primary);
-    transform: rotate(-20deg);
-    pointer-events: none;
-    user-select: none;
+@keyframes fadeInVideo {
+  to {
+    opacity: 1;
   }
 }
 
-// Auth card
-.card {
+// ─── Overlay ───
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+// ─── Card Wrapper ───
+.card-wrapper {
   position: relative;
-  border-radius: 20px !important;
-  border: 1px solid rgba(140,29,24,0.1) !important;
-  box-shadow: 0 24px 56px rgba(140,29,24,0.12), 0 8px 20px rgba(0,0,0,0.06) !important;
-  animation: fadeInUp 0.4s cubic-bezier(0.4,0,0.2,1) both;
-  background: #FFFFFF !important;
-  overflow: hidden;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--ai-primary) 0%, var(--ai-gold) 100%);
-    z-index: 1;
+// ─── Back Button ───
+.back-btn {
+  position: fixed;
+  top: 25px;
+  left: 30px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    background: rgba($gold, 0.1);
+    border-color: rgba($gold, 0.25);
+    color: $gold;
+    transform: translateX(-4px);
   }
+}
 
-  &.p-4 { padding: 2.5rem 2rem !important; }
+// ─── Register Card ───
+.register-card {
+  width: 520px;
+  padding: 30px 35px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.6s ease both;
 
-  h4 {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: var(--ai-primary);
-    letter-spacing: -0.02em;
+  .reg-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, $gold 0%, #ffaa00 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 12px;
+    box-shadow: 0 8px 24px rgba($gold, 0.3);
+    animation: floatIcon 3s ease-in-out infinite;
   }
+}
 
-  .btn-primary.w-100 {
-    height: 46px;
-    font-size: 0.9375rem;
+// ─── Title ───
+.title {
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: $gold;
+  letter-spacing: 0.08em;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.82rem;
+  color: $text-muted;
+  margin-bottom: 18px;
+}
+
+// ─── Two-column Row ───
+.row {
+  display: flex;
+  gap: 16px;
+
+  .input-group {
+    flex: 1;
+  }
+}
+
+// ─── Input Groups ───
+.input-group {
+  margin-bottom: 12px;
+
+  label {
+    display: block;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.03em;
-    border-radius: 10px !important;
-    margin-top: 0.25rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 5px;
   }
 
-  p.text-center {
-    font-size: 0.875rem;
-    color: var(--ai-text-muted);
-    a { color: var(--ai-primary); font-weight: 600; &:hover { text-decoration: underline; } }
+  input,
+  select {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: white;
+    font-size: 0.88rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    &:focus {
+      border-color: rgba($gold, 0.4);
+      background: rgba(255, 255, 255, 0.06);
+      box-shadow: 0 0 0 3px rgba($gold, 0.08);
+    }
+  }
+
+  select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffd700' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;
+
+    option {
+      background: $card-bg;
+      color: white;
+    }
+  }
+}
+
+// ─── Button ───
+.btn-gold {
+  width: 100%;
+  padding: 13px;
+  margin-top: 6px;
+  background: $gold;
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.03em;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba($gold, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ─── Errors & Success ───
+.error-text {
+  font-size: 0.72rem;
+  color: #ff6b6b;
+  margin: 3px 0 0 4px;
+}
+
+.alert-error {
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+  border-radius: 10px;
+  color: #ff8a80;
+  padding: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.alert-success {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  border-radius: 10px;
+  color: #81c784;
+  padding: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+// ─── Login Link ───
+.login-link {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.83rem;
+  color: $text-muted;
+
+  a,
+  a strong {
+    color: $gold;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// ─── Animations ───
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatIcon {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+// ─── Mobile ───
+@media (max-width: 580px) {
+  .register-card {
+    width: 92%;
+    padding: 25px 20px;
+  }
+
+  .row {
+    flex-direction: column;
+    gap: 0;
   }
 }

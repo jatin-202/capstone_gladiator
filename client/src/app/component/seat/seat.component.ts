@@ -16,7 +16,7 @@ export class SeatSelectionComponent implements OnInit, OnChanges {
   seatMap: any[][] = [];
   selectedSeatNumber: string | null = null;
 
-  constructor(private seatService: SeatService) {}
+  constructor(private seatService: SeatService) { }
 
   ngOnInit(): void {
     if (this.flightId) {
@@ -48,8 +48,29 @@ export class SeatSelectionComponent implements OnInit, OnChanges {
   }
 
   selectSeat(seat: any): void {
-    if (seat.booked) return;
-    this.selectedSeatNumber = seat.seatNumber;
-    this.seatSelected.emit(seat.seatNumber);
+  if (seat.booked) return;
+
+  const maxSeats = Number(localStorage.getItem('travellerCount') || 1);
+
+  let selectedList = this.selectedSeatNumber
+    ? this.selectedSeatNumber.split(',').map(s => s.trim())
+    : [];
+
+  const index = selectedList.indexOf(seat.seatNumber);
+
+  // If already selected → remove
+  if (index > -1) {
+    selectedList.splice(index, 1);
+  } else {
+    // Prevent selecting more than allowed
+    if (selectedList.length >= maxSeats) {
+      alert(`You can select only ${maxSeats} seats`);
+      return;
+    }
+    selectedList.push(seat.seatNumber);
   }
+
+  this.selectedSeatNumber = selectedList.join(',');
+  this.seatSelected.emit(this.selectedSeatNumber);
+}
 }

@@ -1,122 +1,249 @@
-<div class="container">
+<div class="flight-page">
   <h3 class="mb-3">Manage Flights</h3>
 
+  <!-- FORM -->
   <div class="card p-3 mb-4">
-    <h5>Add New Flight</h5>
-    <div class="alert alert-success" *ngIf="showMessage">Flight created successfully!</div>
-    <div class="alert alert-danger" *ngIf="showError">{{ errorMessage || 'An error occurred.' }}</div>
+    <h5>✈ Add New Flight</h5>
+
+    <div class="alert alert-success" *ngIf="showMessage">
+      Flight created successfully!
+    </div>
+
+    <div class="alert alert-danger" *ngIf="showError">
+      {{ errorMessage }}
+    </div>
 
     <form [formGroup]="flightForm" (ngSubmit)="onSubmit()">
-      <div class="row g-2">
+
+      <div class="row g-3">
+
+        <!-- Flight Number -->
         <div class="col-md-4">
           <label class="form-label">Flight Number</label>
-          <input class="form-control" formControlName="flight_number" placeholder="Flight number">
-          <div class="text-danger small" *ngIf="flightForm.get('flight_number')?.invalid && flightForm.get('flight_number')?.touched">Required</div>
+
+          <input class="form-control" formControlName="flight_number"
+            [class.is-invalid]="f['flight_number'].touched && f['flight_number'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['flight_number'].touched && f['flight_number'].invalid">
+            <div *ngIf="f['flight_number'].errors?.['required']"> Flight number is required
+            </div>
+            <div *ngIf="f['flight_number'].errors?.['minlength']">Min 3 chars</div>
+          </div>
         </div>
+
+        <!-- Flight Name ✅ FIXED -->
         <div class="col-md-4">
           <label class="form-label">Flight Name</label>
-          <input class="form-control" formControlName="flight_name" placeholder="Flight name">
+
+          <input class="form-control" formControlName="flight_name"
+            [class.is-invalid]="f['flight_name'].touched && f['flight_name'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['flight_name'].touched && f['flight_name'].invalid">
+            Flight name is required
+          </div>
         </div>
+
+        <!-- Source -->
         <div class="col-md-4">
           <label class="form-label">Source</label>
-          <input class="form-control" formControlName="source" placeholder="source">
+
+          <input class="form-control" formControlName="source"
+            [class.is-invalid]="f['source'].touched && f['source'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['source'].touched && f['source'].invalid">
+            Source is required
+          </div>
         </div>
+
+        <!-- Destination -->
         <div class="col-md-4">
           <label class="form-label">Destination</label>
-          <input class="form-control" formControlName="destination" placeholder="destination">
+
+          <input class="form-control" formControlName="destination"
+            [class.is-invalid]="f['destination'].touched && f['destination'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['destination'].touched && f['destination'].invalid">
+            Destination is required
+          </div>
         </div>
+
+        <!-- Departure Date -->
         <div class="col-md-4">
           <label class="form-label">Departure Date</label>
-          <input type="date" class="form-control" formControlName="departureDate" [min]="today">
+
+          <input type="date" class="form-control" formControlName="departureDate" [min]="today"
+            [class.is-invalid]="f['departureDate'].touched && f['departureDate'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['departureDate'].touched && f['departureDate'].invalid">
+            Required
+          </div>
         </div>
+
+        <!-- Departure Time -->
         <div class="col-md-4">
           <label class="form-label">Departure Time</label>
-          <input type="time" class="form-control" formControlName="departureTime">
+
+          <input type="time" class="form-control" formControlName="departureTime"
+            [class.is-invalid]="f['departureTime'].touched && f['departureTime'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['departureTime'].touched && f['departureTime'].invalid">
+            Required
+          </div>
         </div>
+
+        <!-- Arrival Time -->
         <div class="col-md-4">
           <label class="form-label">Arrival Time</label>
-          <input type="time" class="form-control" formControlName="arrivalTime">
+
+          <input type="time" class="form-control" formControlName="arrivalTime"
+            [class.is-invalid]="f['arrivalTime'].touched && f['arrivalTime'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['arrivalTime'].touched && f['arrivalTime'].invalid">
+            Required
+          </div>
         </div>
+
+        <!-- Total Seats -->
         <div class="col-md-4">
           <label class="form-label">Total Seats</label>
-          <input type="number" class="form-control" formControlName="totalSeats">
+
+          <input type="number" class="form-control" formControlName="totalSeats"
+            [class.is-invalid]="f['totalSeats'].touched && f['totalSeats'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['totalSeats'].touched && f['totalSeats'].invalid">
+            Minimum 1 required
+          </div>
         </div>
+
+        <!-- Available Seats -->
         <div class="col-md-4">
           <label class="form-label">Available Seats</label>
-          <input type="number" class="form-control" formControlName="available_seats">
+
+          <input type="number" class="form-control" formControlName="available_seats"
+            [class.is-invalid]="f['available_seats'].touched && f['available_seats'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['available_seats'].touched && f['available_seats'].invalid">
+            Required
+          </div>
         </div>
+
+        <!-- Price -->
         <div class="col-md-4">
           <label class="form-label">Price (₹)</label>
-          <input type="number" class="form-control" formControlName="price">
+
+          <input type="number" class="form-control" formControlName="price"
+            [class.is-invalid]="f['price'].touched && f['price'].invalid">
+
+          <div class="invalid-feedback" *ngIf="f['price'].touched && f['price'].invalid">
+            Must be greater than 0
+          </div>
         </div>
+
+        <!-- Status -->
         <div class="col-md-4">
           <label class="form-label">Status</label>
+
           <select class="form-select" formControlName="status">
             <option value="SCHEDULED">SCHEDULED</option>
             <option value="DELAYED">DELAYED</option>
             <option value="CANCELLED">CANCELLED</option>
           </select>
         </div>
+
       </div>
 
-      <!-- Seat Details FormArray -->
+      <!-- Seat Section -->
       <hr>
       <h6>Seat Details</h6>
-      <button type="button" class="btn btn-sm btn-outline-primary mb-2" (click)="addSeat()">+ Add Seat</button>
+
+      <button type="button" class="btn btn-sm btn-outline-primary mb-2" (click)="addSeat()">
+        + Add Seat
+      </button>
 
       <div formArrayName="seats">
-        <div *ngFor="let seat of seats.controls; let i = index" [formGroupName]="i" class="row g-2 align-items-center mb-2 border rounded p-2">
-          <div class="col-md-2"><input class="form-control form-control-sm" formControlName="seatNumber" placeholder="Seat No"></div>
-          <div class="col-md-2"><input class="form-control form-control-sm" formControlName="rowLabel" placeholder="Row"></div>
-          <div class="col-md-1"><input type="number" class="form-control form-control-sm" formControlName="columnNumber" placeholder="Col"></div>
-          <div class="col-md-2"><input type="number" class="form-control form-control-sm" formControlName="price" placeholder="Price"></div>
-          <div class="col-auto">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" formControlName="isAvailable">
-              <label class="form-check-label">Available</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" formControlName="isXL">
-              <label class="form-check-label">XL</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" formControlName="isBlocked">
-              <label class="form-check-label">Blocked</label>
+        <div *ngFor="let seat of seats.controls; let i = index" [formGroupName]="i"
+          class="row g-2 border p-2 rounded mb-2">
+
+          <div class="col-md-2">
+            <input class="form-control form-control-sm" formControlName="seatNumber" placeholder="Seat"
+              [class.is-invalid]="seat.get('seatNumber')?.touched && seat.get('seatNumber')?.invalid">
+
+            <div class="invalid-feedback" *ngIf="seat.get('seatNumber')?.touched && seat.get('seatNumber')?.invalid">
+              Required
             </div>
           </div>
-          <div class="col-auto">
-            <button type="button" class="btn btn-sm btn-danger" (click)="removeSeat(i)">Remove</button>
+
+          <div class="col-md-2">
+            <input class="form-control form-control-sm" formControlName="rowLabel" placeholder="Row">
           </div>
+
+          <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" formControlName="columnNumber" placeholder="Col">
+          </div>
+
+          <div class="col-md-2">
+            <input type="number" class="form-control form-control-sm" formControlName="price" placeholder="Price">
+          </div>
+
+          <div class="col-auto">
+            <button type="button" class="btn btn-sm btn-danger" (click)="removeSeat(i)">
+              Remove
+            </button>
+          </div>
+
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success mt-2">Create Flight</button>
+      <button type="submit" class="btn btn-success mt-3" [disabled]="flightForm.invalid">
+        Create Flight
+      </button>
+
     </form>
   </div>
 
   <!-- Flight List -->
   <div class="card p-3">
     <h5>Flight Information</h5>
-    <table class="table table-sm table-hover">
-      <thead class="table-dark">
-        <tr>
-          <th>Sr#</th><th>Flight No</th><th>Name</th><th>Source</th>
-          <th>Destination</th><th>Departure</th><th>Arrival</th><th>Price</th><th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let f of flights; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ f.flight_number }}</td>
-          <td>{{ f.flight_name }}</td>
-          <td>{{ f.source }}</td>
-          <td>{{ f.destination }}</td>
-          <td>{{ f.departureTime }}</td>
-          <td>{{ f.arrivalTime }}</td>
-          <td>₹{{ f.price }}</td>
-          <td>{{ f.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+
+    <div class="table-wrapper">
+      <table class="flight-table">
+        <thead>
+          <tr>
+            <th>Sr#</th>
+            <th>Flight No</th>
+            <th>Name</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let f of flights; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ f.flight_number }}</td>
+            <td>{{ f.flight_name }}</td>
+            <td>{{ f.source }}</td>
+            <td>{{ f.destination }}</td>
+            <td>{{ f.departureTime }}</td>
+            <td>{{ f.arrivalTime }}</td>
+            <td>₹{{ f.price }}</td>
+
+            <td>
+              <span class="flight-status" [ngClass]="{
+                'status-scheduled': f.status === 'SCHEDULED',
+                'status-delayed': f.status === 'DELAYED',
+                'status-cancelled': f.status === 'CANCELLED'
+              }">
+                {{ f.status }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

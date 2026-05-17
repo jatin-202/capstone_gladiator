@@ -16,22 +16,23 @@ import { AssignPilotComponent } from './component/assign-pilot/assign-pilot.comp
 import { ProfilComponent } from './component/profil/profil.component';
 import { ViewuserComponent } from './component/viewuser/viewuser.component';
 import { SeatSelectionComponent } from './component/seat/seat.component';
-
 import { HttpService } from '../services/http.service';
 import { AuthService } from '../services/auth.service';
+import { RouterModule } from '@angular/router';
+import { LandingComponent } from './component/landing/landing.component';
 
 @NgModule({
   declarations: [
     AppComponent, LoginComponent, RegisterComponent,
     DashboardComponent, FlightComponent, FlightSearchComponent,
     BookingsComponent, AssignPilotComponent, ProfilComponent,
-    ViewuserComponent, SeatSelectionComponent
+    ViewuserComponent, SeatSelectionComponent, LandingComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, FormsModule,
+    BrowserModule, AppRoutingModule, FormsModule, RouterModule,
     ReactiveFormsModule, HttpClientModule, CommonModule
   ],
   providers: [HttpService, AuthService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

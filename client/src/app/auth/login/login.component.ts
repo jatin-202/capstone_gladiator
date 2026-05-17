@@ -20,13 +20,15 @@ export class LoginComponent implements OnInit {
     private httpService: HttpService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
+
     this.loginForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
   }
 
   onSubmit(): void {
@@ -35,6 +37,9 @@ export class LoginComponent implements OnInit {
     this.httpService.login(this.loginForm.value).subscribe({
       next: (res: any) => {
         this.authService.saveAuth(res.token, res.role, res.userId?.toString());
+
+        localStorage.setItem('username', res.username || this.loginForm.value.username);
+
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
@@ -42,5 +47,9 @@ export class LoginComponent implements OnInit {
         this.errorMessage = err?.error?.message || 'Invalid credentials.';
       }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

@@ -1,33 +1,143 @@
-// App shell — navbar brand polish + layout wrapper
-// Global nav styles live in styles.scss; this adds brand-specific details
+// ============================================================
+// NAVBAR — Airline Premium Dark + Gold Theme
+// ============================================================
+
+$gold: #f5c542;
+$dark: #02040c;
+$text-muted: rgba(255, 255, 255, 0.7);
 
 :host {
   display: block;
 }
 
-// Brand icon glyph
-.navbar-brand {
-  position: relative;
-  padding-left: 0.25rem;
-
-  // Gold underline on hover
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--ai-gold), transparent);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  &:hover::after { opacity: 1; }
+// NAVBAR BASE
+.custom-navbar {
+  background: linear-gradient(
+    135deg,
+    #02040c 0%,
+    #070b18 100%
+  );
+  border-bottom: 1px solid rgba(245, 197, 66, 0.15);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
-// Gold separator between nav links and logout
+// ================= LOGO STYLE =================
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-weight: 800;
+  font-size: 1.2rem;
+  letter-spacing: 0.03em;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    $gold
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+// PLANE ICON ANIMATION
+.navbar-brand::before {
+  content: "✈";
+  font-size: 1.2rem;
+  color: $gold;
+  transition: transform 0.3s ease;
+}
+
+// hover underline
+.navbar-brand::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, $gold, transparent);
+  transition: width 0.3s ease;
+}
+
+// hover effects
+.navbar-brand:hover::after {
+  width: 100%;
+}
+
+.navbar-brand:hover::before {
+  transform: translateX(4px);
+}
+
+// ================= NAV LINKS =================
+
+.nav-link {
+  color: $text-muted !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+// hover glow
+.nav-link:hover {
+  color: $gold !important;
+  background: rgba(245, 197, 66, 0.08);
+}
+
+// active route (Angular router adds this automatically if enabled)
+.nav-link.active {
+  color: $gold !important;
+  background: rgba(245, 197, 66, 0.12);
+  box-shadow: 0 0 10px rgba(245, 197, 66, 0.15);
+}
+
+// ================= LOGOUT BUTTON =================
+
+.btn-outline-light {
+  border: 1px solid rgba(245, 197, 66, 0.4) !important;
+  color: $gold !important;
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+
+// hover logout
+.btn-outline-light:hover {
+  background: rgba(245, 197, 66, 0.15);
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(245, 197, 66, 0.3);
+}
+
+// ================= NAV ALIGNMENT =================
+
 .navbar-nav {
   align-items: center;
-  gap: 0.125rem;
+  gap: 6px;
+}
+
+// ================= GLOBAL BACKGROUND FIX =================
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #050816;
+}
+
+// APP WRAPPER
+.app-wrapper {
+  min-height: calc(100vh - 60px);
+  width: 100%;
+  padding: 20px 26px;
+  background: #050816;
 }

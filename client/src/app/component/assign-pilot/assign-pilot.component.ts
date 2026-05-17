@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
@@ -20,7 +21,7 @@ export class AssignPilotComponent implements OnInit {
   responseMessage = '';
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private httpService: HttpService, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private httpService: HttpService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.roleName = this.authService.getRole;

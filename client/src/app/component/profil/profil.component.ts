@@ -12,24 +12,20 @@ export class ProfilComponent implements OnInit {
   user: any = null;
   showError = false;
 
-  constructor(private httpService: HttpService, private authService: AuthService) {}
+  constructor(
+    private httpService: HttpService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    // Use root AuthService's token to fetch logged-in user profile
-    const token = this.authService.getToken();
-    if (token) {
-      this.httpService.login({ username: '', password: '' });
-    }
-    // Call the user profile endpoint via httpClient directly
+    // ✅ No login call here
     this.loadProfile();
   }
 
   loadProfile(): void {
-    // HttpService already includes the auth header; call /api/auth/user indirectly
-    // We fetch user info from authService stored data and display it
     this.user = {
       username: localStorage.getItem('username') || '',
-      role: this.authService.getRole,
+      role: this.authService.getRole,   // ✅ getter (correct)
       userId: this.authService.getUserId()
     };
   }

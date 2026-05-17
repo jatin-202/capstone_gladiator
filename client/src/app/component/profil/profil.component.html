@@ -1,12 +1,40 @@
-<div class="container mt-4">
-  <h3 class="mb-3">My Profile</h3>
-  <div class="card p-4" style="max-width: 500px;" *ngIf="user">
-    <table class="table table-borderless">
+<div class="profile-page">
+
+  <h3>My Profile</h3>
+
+  <div class="profile-card" *ngIf="user">
+
+    <div class="profile-header">
+      ✈
+    </div>
+
+    <table class="profile-table">
+
       <tbody>
-        <tr><th>Username</th><td>{{ user.username }}</td></tr>
-        <tr><th>Role</th><td><span class="badge bg-primary">{{ user.role }}</span></td></tr>
-        <tr><th>User ID</th><td>{{ user.userId }}</td></tr>
+
+        <tr>
+          <th>Username</th>
+          <td>{{ user.username }}</td>
+        </tr>
+
+        <tr>
+          <th>Role</th>
+          <td>
+            <span class="role-badge">
+              {{ user.role }}
+            </span>
+          </td>
+        </tr>
+
+        <tr>
+          <th>User ID</th>
+          <td>{{ user.userId }}</td>
+        </tr>
+
       </tbody>
+
     </table>
+
   </div>
+
 </div>

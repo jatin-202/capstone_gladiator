@@ -10,6 +10,7 @@ import { AssignPilotComponent } from './component/assign-pilot/assign-pilot.comp
 import { ProfilComponent } from './component/profil/profil.component';
 import { ViewuserComponent } from './component/viewuser/viewuser.component';
 import { AuthGuard } from './auth.guard';
+import { LandingComponent } from './component/landing/landing.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,11 +22,11 @@ const routes: Routes = [
   { path: 'search_flight', component: FlightSearchComponent, canActivate: [AuthGuard] },
   { path: 'my_booking', component: BookingsComponent, canActivate: [AuthGuard] },
   { path: 'my_profile', component: ProfilComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: '', component: LandingComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

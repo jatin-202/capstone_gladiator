@@ -1,0 +1,150 @@
+<!-- LOADER -->
+<div class="loader" *ngIf="showLoader" [class.fadeOut]="fadeLoader">
+  <div class="logo">AIRLINE</div>
+  <div class="line"></div>
+</div>
+
+<div class="landing">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">AIRLINE</div>
+    <div class="nav-links">
+      <a (click)="scrollTo('features')">Features</a>
+      <a (click)="scrollTo('destinations')">Destinations</a>
+      <a [routerLink]="['/login']">Sign In</a>
+      <a [routerLink]="['/register']">Register</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <video autoplay muted loop class="hero-video" src="assets/videos/32975-394513987.mp4"></video>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1>Fly Beyond <span>Luxury</span></h1>
+
+      <div class="hero-btns">
+        <button (click)="openSignIn()" class="btn-gold">Book Now</button>
+        <button (click)="scrollTo('features')" class="btn-outline">Explore ↓</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <h2>Why Choose <span>Us</span></h2>
+    <p class="section-sub">Everything you need for a world-class journey</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Global Network</h3>
+        <p>500+ destinations across 6 continents with seamless connections worldwide.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💺</div>
+        <h3>Premium Comfort</h3>
+        <p>Luxurious seating with extra legroom, personal entertainment, and gourmet dining.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Safe & Secure</h3>
+        <p>Industry-leading safety standards with 99.9% on-time performance record.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Booking</h3>
+        <p>Book flights in seconds with our streamlined reservation system.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat">
+      <h2>500+</h2>
+      <p>Destinations</p>
+    </div>
+    <div class="stat">
+      <h2>10M+</h2>
+      <p>Passengers</p>
+    </div>
+    <div class="stat">
+      <h2>200+</h2>
+      <p>Aircraft</p>
+    </div>
+    <div class="stat">
+      <h2>99.9%</h2>
+      <p>On-Time</p>
+    </div>
+  </section>
+
+  <!-- DESTINATIONS -->
+  <section class="destinations" id="destinations">
+    <h2>Popular <span>Destinations</span></h2>
+    <p class="section-sub">Explore our most booked routes this season</p>
+    <div class="dest-grid">
+      <div class="dest-card">
+        <img src="assets/flight1.png" alt="Paris" />
+        <div class="dest-info">
+          <h3>Paris</h3>
+          <p>From ₹32,000</p>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="assets/flight-logo.jpg" alt="Dubai" />
+        <div class="dest-info">
+          <h3>Dubai</h3>
+          <p>From ₹18,000</p>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="assets/flight2.jpg" alt="Tokyo" />
+        <div class="dest-info">
+          <h3>Tokyo</h3>
+          <p>From ₹45,000</p>
+        </div>
+      </div>
+      <div class="dest-card">
+        <img src="assets/flight3.jpg" alt="New York" />
+        <div class="dest-info">
+          <h3>New York</h3>
+          <p>From ₹55,000</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>AIRLINE</h3>
+        <p>Premium air travel redefined. Fly with confidence, arrive in style.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a (click)="scrollTo('features')">Features</a>
+        <a (click)="scrollTo('destinations')">Destinations</a>
+        <a (click)="openSignIn()">Book Now</a>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a>Help Center</a>
+        <a>Contact Us</a>
+        <a>FAQs</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a>Twitter</a>
+        <a>Instagram</a>
+        <a>LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Airline Booking System. All rights reserved.</p>
+    </div>
+  </footer>
+</div>

@@ -70,4 +70,4 @@ export class BookingsService {
       { flightId, seatNumbers, userId },
       { headers: this.getHeaders() });
   }
-}
+} 
