@@ -1,0 +1,53 @@
+<video autoplay muted loop playsinline class="signin-video">
+  <source src="assets/videos/32975-394513987.mp4" type="video/mp4" />
+</video>
+
+<div class="signin-overlay"></div>
+
+<div class="otp-wrapper">
+
+  <div class="otp-card">
+
+    <h2 class="otp-title">✈️ Verify OTP</h2>
+    <p class="otp-subtitle">
+      A 6-digit code has been sent to<br>
+      <strong>{{ email }}</strong>
+    </p>
+
+    <!-- ALERTS -->
+    <div class="alert-success" *ngIf="showSuccess">{{ successMessage }}</div>
+    <div class="alert-error" *ngIf="showError">{{ errorMessage }}</div>
+
+  <!-- 6 DIGIT OTP INPUT -->
+<div class="otp-inputs" (paste)="onPaste($event)">
+  <input
+    *ngFor="let digit of otpDigits; let i = index; trackBy: trackByIndex"
+    [id]="'otp-' + i"
+    type="text"
+    maxlength="1"
+    class="otp-box"
+    autocomplete="off"
+    (keydown)="onKeyDown($event, i)"
+  />
+</div>
+
+    <!-- VERIFY BUTTON -->
+    <button class="btn-gold" (click)="verifyOtp()">
+      Verify →
+    </button>
+
+    <!-- RESEND -->
+    <div class="resend-section">
+      <span *ngIf="!canResend">Resend OTP in <strong>{{ resendTimer }}s</strong></span>
+      <a *ngIf="canResend" (click)="resendOtp()" class="resend-link">
+        Resend OTP
+      </a>
+    </div>
+
+    <!-- BACK -->
+    <p class="back-link">
+      <a routerLink="/login">← Back to Login</a>
+    </p>
+
+  </div>
+</div>

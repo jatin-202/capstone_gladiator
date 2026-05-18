@@ -2,6 +2,7 @@
 /home/coder/app/server/src/main/java/com/edutech/dto/LoginResponse.java
 /home/coder/app/server/src/main/java/com/edutech/entity/User.java
 /home/coder/app/server/src/main/java/com/edutech/dto/BookingDTO.java
+/home/coder/app/server/src/main/java/com/edutech/dto/OtpResponse.java
 /home/coder/app/server/src/main/java/com/edutech/entity/Status.java
 /home/coder/app/server/src/main/java/com/edutech/controller/FlightsController.java
 /home/coder/app/server/src/main/java/com/edutech/dto/LoginRequest.java
@@ -13,6 +14,7 @@
 /home/coder/app/server/src/main/java/com/edutech/repository/SeatRepository.java
 /home/coder/app/server/src/main/java/com/edutech/service/SeatService.java
 /home/coder/app/server/src/main/java/com/edutech/util/JwtRequestFilter.java
+/home/coder/app/server/src/main/java/com/edutech/dto/ForgotPasswordDTO.java
 /home/coder/app/server/src/main/java/com/edutech/entity/FlightSchedule.java
 /home/coder/app/server/src/main/java/com/edutech/config/SecurityConfig.java
 /home/coder/app/server/src/main/java/com/edutech/dto/UserDTO.java
@@ -26,10 +28,13 @@
 /home/coder/app/server/src/main/java/com/edutech/entity/Seat.java
 /home/coder/app/server/src/main/java/com/edutech/entity/Bookings.java
 /home/coder/app/server/src/main/java/com/edutech/controller/AuthController.java
+/home/coder/app/server/src/main/java/com/edutech/dto/OtpRequest.java
 /home/coder/app/server/src/main/java/com/edutech/entity/Flights.java
 /home/coder/app/server/src/main/java/com/edutech/exception/GlobalExceptionHandler.java
 /home/coder/app/server/src/main/java/com/edutech/service/FlightsService.java
+/home/coder/app/server/src/main/java/com/edutech/service/OtpService.java
 /home/coder/app/server/src/main/java/com/edutech/service/BookingService.java
 /home/coder/app/server/src/main/java/com/edutech/service/UserService.java
+/home/coder/app/server/src/main/java/com/edutech/service/EmailService.java
 /home/coder/app/server/src/main/java/com/edutech/controller/FlightScheduleController.java
 /home/coder/app/server/src/main/java/com/edutech/entity/Role.java

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { VerifyOtpComponent } from './auth/verify-otp/verify-otp.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { FlightComponent } from './component/flight/flight.component';
 import { FlightSearchComponent } from './component/flight-search/flight-search.component';
@@ -15,6 +16,7 @@ import { LandingComponent } from './component/landing/landing.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'verify-otp', component: VerifyOtpComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'add_flights', component: FlightComponent, canActivate: [AuthGuard] },
   { path: 'view_all_user', component: ViewuserComponent, canActivate: [AuthGuard] },

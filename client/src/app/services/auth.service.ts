@@ -16,8 +16,8 @@ export class AuthService {
     return localStorage.getItem('token') || '';
   }
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/api/auth/login`, credentials);
+  login(credentials: LoginRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/auth/login`, credentials);
   }
 
   register(user: any): Observable<any> {
@@ -32,5 +32,20 @@ export class AuthService {
   // ✅ REAL-TIME: Check email exists
   checkEmail(email: string): Observable<boolean> {
     return this.http.get<boolean>(`${this.baseUrl}/api/auth/check-email/${email}`);
+  }
+
+  // ✅ OTP: Send OTP to email
+  sendOtp(email: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/auth/send-otp`, { email });
+  }
+
+  // ✅ OTP: Verify registration OTP
+  verifyRegisterOtp(email: string, otp: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/auth/verify-register-otp`, { email, otp });
+  }
+
+  // ✅ OTP: Verify login OTP (returns JWT)
+  verifyLoginOtp(email: string, otp: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/api/auth/verify-login-otp`, { email, otp });
   }
 }

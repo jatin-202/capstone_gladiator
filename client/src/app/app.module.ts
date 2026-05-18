@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { VerifyOtpComponent } from './auth/verify-otp/verify-otp.component';
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { FlightComponent } from './component/flight/flight.component';
 import { FlightSearchComponent } from './component/flight-search/flight-search.component';
@@ -24,6 +25,7 @@ import { LandingComponent } from './component/landing/landing.component';
 @NgModule({
   declarations: [
     AppComponent, LoginComponent, RegisterComponent,
+    VerifyOtpComponent,
     DashboardComponent, FlightComponent, FlightSearchComponent,
     BookingsComponent, AssignPilotComponent, ProfilComponent,
     ViewuserComponent, SeatSelectionComponent, LandingComponent
