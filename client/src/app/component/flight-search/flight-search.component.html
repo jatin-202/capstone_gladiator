@@ -30,7 +30,7 @@
         <!-- DATE -->
         <div class="col-md-2">
           <label class="form-label">Date</label>
-          <input type="date" class="form-control" formControlName="date">
+          <input type="date" class="form-control" formControlName="date" [min]="today">
         </div>
 
         <!-- TRAVELLERS -->
@@ -38,15 +38,12 @@
           <label class="form-label">Travellers</label>
 
           <div class="dropdown">
-            <button type="button" class="btn btn-outline-secondary w-100"
-              (click)="toggleDropdown()">
+            <button type="button" class="btn btn-outline-secondary w-100" (click)="toggleDropdown()">
               {{ travelerSummary }} ▾
             </button>
 
             <!-- DROPDOWN -->
-            <div class="dropdown-menu p-3 show"
-              *ngIf="dropdownOpen"
-              style="min-width:220px">
+            <div class="dropdown-menu p-3 show" *ngIf="dropdownOpen" style="min-width:220px">
 
               <!-- ADULT -->
               <div class="d-flex justify-content-between align-items-center mb-2">
@@ -91,8 +88,7 @@
               </div>
 
               <!-- CLASS -->
-              <select class="form-select form-select-sm mt-2"
-                formControlName="travelClass">
+              <select class="form-select form-select-sm mt-2" formControlName="travelClass">
                 <option>Economy</option>
                 <option>Business</option>
                 <option>First</option>
@@ -148,8 +144,7 @@
             <td>₹{{ f.price }}</td>
 
             <td>
-              <button class="btn-sm btn-gold"
-                (click)="viewFlight(f)">
+              <button class="btn-sm btn-gold" (click)="viewFlight(f)">
                 View & Book
               </button>
             </td>
@@ -162,10 +157,7 @@
   </div>
 
   <!-- ================= MODAL ================= -->
-  <div class="modal d-block"
-    *ngIf="selectedFlight"
-    tabindex="-1"
-    style="background: rgba(0,0,0,0.6)">
+  <div class="modal d-block" *ngIf="selectedFlight" tabindex="-1" style="background: rgba(0,0,0,0.6)">
 
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -176,8 +168,7 @@
             Flight Details - {{ selectedFlight.flight_number }}
           </h5>
 
-          <button type="button" class="btn-close"
-            (click)="selectedFlight=null"></button>
+          <button type="button" class="btn-close" (click)="selectedFlight=null"></button>
         </div>
 
         <!-- BODY -->
@@ -220,10 +211,7 @@
           </div>
 
           <!-- SEAT COMPONENT -->
-          <app-seat
-            [flightId]="selectedFlight.id"
-            [seats]="seats"
-            (seatSelected)="onSeatSelected($event)">
+          <app-seat [flightId]="selectedFlight.id" [seats]="seats" (seatSelected)="onSeatSelected($event)">
           </app-seat>
 
           <!-- SUCCESS -->
@@ -235,13 +223,11 @@
 
         <!-- FOOTER -->
         <div class="modal-footer">
-          <button class="btn-secondary"
-            (click)="selectedFlight=null">
+          <button class="btn-secondary" (click)="selectedFlight=null">
             Close
           </button>
 
-          <button class="btn-gold"
-            (click)="bookSelectedFlight()">
+          <button class="btn-gold" (click)="bookSelectedFlight()">
             Book & Pay
           </button>
         </div>

@@ -21,6 +21,9 @@ export class AssignPilotComponent implements OnInit {
   responseMessage = '';
   errorMessage = '';
 
+  today: string = '';
+
+
   constructor(private fb: FormBuilder, private httpService: HttpService, private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -41,6 +44,14 @@ export class AssignPilotComponent implements OnInit {
     } else {
       this.httpService.getMySchedule().subscribe({ next: (data) => this.schedules = data });
     }
+
+    this.setToday();
+
+  }
+
+  setToday() {
+    const date = new Date();
+    this.today = date.toISOString().split('T')[0]; // ✅ format: YYYY-MM-DD
   }
 
   onSubmit(): void {

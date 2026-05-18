@@ -18,7 +18,7 @@
         <thead>
           <tr>
             <th>Sr#</th>
-            <th>PNR</th>
+            <!-- <th>PNR</th> -->
             <th>Flight No</th>
             <th>Seats</th>
             <th>Source</th>
@@ -37,7 +37,7 @@
 
             <td>{{ i+1 }}</td>
 
-            <td>{{ b.pnr }}</td>
+            <!-- <td>{{ b.pnr }}</td> -->
 
             <td>{{ b.flight?.flight_number }}</td>
 
@@ -81,7 +81,7 @@
                 </button>
 
                 <button class="action-btn download" (click)="downloadTicket(b.id)">
-                  Download
+                  ↓
                 </button>
 
               </div>

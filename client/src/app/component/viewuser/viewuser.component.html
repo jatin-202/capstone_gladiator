@@ -13,7 +13,7 @@
             <th>Sr#</th>
             <th>Passenger</th>
             <th>Flight No</th>
-            <th>PNR</th>
+            <!-- <th>PNR</th> -->
             <th>Seats</th>
             <th>Source</th>
             <th>Destination</th>
@@ -23,13 +23,12 @@
           </tr>
         </thead>
 
-        ✅ THIS WAS MISSING
         <tbody>
           <tr *ngFor="let b of bookingsListUser; let i = index">
             <td>{{ i+1 }}</td>
             <td>{{ b.user?.username }}</td>
             <td>{{ b.flight?.flight_number }}</td>
-            <td>{{ b.pnr }}</td>
+            <!-- <td>{{ b.pnr }}</td> -->
             <td>{{ b.seatNumbers }}</td>
             <td>{{ b.flight?.source }}</td>
             <td>{{ b.flight?.destination }}</td>

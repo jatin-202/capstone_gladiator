@@ -1,30 +1,152 @@
 <div class="dashboard-page">
 
-  <div class="dashboard-center">
-    <h2>Welcome to Airline Booking System</h2>
-
+  <!-- HERO -->
+  <div class="dashboard-hero">
+    <h1>RouteOne ✈</h1>
     <p class="subtitle">
-      You are logged in as <strong>{{ role }}</strong>
+      Welcome back — you are logged in as <strong>{{ role }}</strong>
     </p>
+  </div>
+
+  <!-- ================= STATS ================= -->
+  <div class="stats-grid">
 
     <!-- ADMIN -->
-    <div class="action-grid" *ngIf="role === 'ADMIN'">
-      <a routerLink="/add_flights" class="action-card">Manage Flights</a>
-      <a routerLink="/view_all_user" class="action-card">View All Bookings</a>
-      <a routerLink="/assign_pilot" class="action-card">Assign Pilots</a>
-    </div>
+    <ng-container *ngIf="role === 'ADMIN'">
+
+      <div class="stats-card">
+        <div class="stats-icon">✈</div>
+        <div>
+          <h3>{{ totalFlights }}</h3>
+          <p>Total Flights</p>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-icon">📊</div>
+        <div>
+          <h3>{{ activeFlights }}</h3>
+          <p>Active Flights</p>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-icon">🎫</div>
+        <div>
+          <h3>{{ totalBookings }}</h3>
+          <p>Total Bookings</p>
+        </div>
+      </div>
+
+    </ng-container>
 
     <!-- PASSENGER -->
-    <div class="action-grid" *ngIf="role === 'PASSENGER'">
-      <a routerLink="/search_flight" class="action-card">Search Flights</a>
-      <a routerLink="/my_booking" class="action-card">My Bookings</a>
-      <a routerLink="/my_profile" class="action-card">My Profile</a>
-    </div>
+    <ng-container *ngIf="role === 'PASSENGER'">
+
+      <div class="stats-card">
+        <div class="stats-icon">🎫</div>
+        <div>
+          <h3>{{ totalBookings }}</h3>
+          <p>My Bookings</p>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-icon">✈</div>
+        <div>
+          <h3>{{ upcomingTrips }}</h3>
+          <p>Upcoming Trips</p>
+        </div>
+      </div>
+
+    </ng-container>
 
     <!-- PILOT -->
-    <div class="action-grid" *ngIf="role === 'PILOT'">
-      <a routerLink="/assign_pilot" class="action-card">My Schedule</a>
-      <a routerLink="/my_profile" class="action-card">My Profile</a>
+    <ng-container *ngIf="role === 'PILOT'">
+
+      <div class="stats-card">
+        <div class="stats-icon">✈</div>
+        <div>
+          <h3>{{ assignedFlights }}</h3>
+          <p>Assigned Flights</p>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="stats-icon">⏱</div>
+        <div>
+          <h3>{{ flightHours }}hrs</h3>
+          <p>This Week</p>
+        </div>
+      </div>
+
+    </ng-container>
+
+  </div>
+
+  <!-- ================= CONTENT ================= -->
+  <div class="dashboard-content">
+
+    <!-- ========= ADMIN ========= -->
+    <div *ngIf="role === 'ADMIN'">
+
+      <h3 class="section-title">Operations</h3>
+
+      <div class="action-grid">
+        <a routerLink="/add_flights" class="dashboard-card">✈ Manage Flights</a>
+        <a routerLink="/view_all_user" class="dashboard-card">📋 View Bookings</a>
+        <a routerLink="/assign_pilot" class="dashboard-card">👨‍✈ Assign Pilot</a>
+      </div>
+
+    </div>
+
+    <!-- ========= PASSENGER ========= -->
+    <div *ngIf="role === 'PASSENGER'">
+
+      <h3 class="section-title">Recent Bookings</h3>
+
+      <!-- ✅ Correct IF / ELSE -->
+      <ng-container *ngIf="recentBookings.length > 0; else noBookings">
+
+        <div class="dashboard-card" *ngFor="let booking of recentBookings">
+
+          ✈ {{ booking.flight?.flight_number || 'N/A' }} <br>
+
+          {{ booking.flight?.source || '??' }} → {{ booking.flight?.destination || '??' }} <br>
+
+          {{ booking.flight?.departureDate }} | {{ booking.flight?.departureTime }} <br>
+
+          <span class="status">
+            {{ booking.status }}
+          </span>
+
+        </div>
+
+      </ng-container>
+
+      <!-- ✅ MUST be OUTSIDE -->
+      <ng-template #noBookings>
+        <p class="empty-text">No bookings found</p>
+      </ng-template>
+
+    </div>
+
+    <!-- ========= PILOT ========= -->
+    <div *ngIf="role === 'PILOT'">
+
+      <h3 class="section-title">Assignments</h3>
+
+      <div *ngFor="let item of pilotFlights" class="dashboard-card">
+
+        ✈ {{ item.flight?.source }} → {{ item.flight?.destination }} <br>
+
+        {{ item.flight?.departureDate }} | {{ item.flight?.departureTime }} <br>
+
+        <span class="status">
+          {{ item.status }}
+        </span>
+
+      </div>
     </div>
 
   </div>

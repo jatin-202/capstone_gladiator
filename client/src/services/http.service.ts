@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 export class HttpService {
   public serverName = environment.apiUrl;
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   // Build Authorization header using the stored JWT token
   private getHeaders(): HttpHeaders {
@@ -23,6 +23,12 @@ export class HttpService {
 
   registerUser(user: any): Observable<any> {
     return this.http.post(`${this.serverName}/api/auth/register`, user);
+  }
+
+  getAllUsers() {
+    return this.http.get<any[]>(`${this.serverName}/api/users`, { 
+      headers: this.getHeaders()
+    });
   }
 
   // ── Flights ───────────────────────────────────────────────────────────

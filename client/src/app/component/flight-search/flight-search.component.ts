@@ -23,6 +23,7 @@ export class FlightSearchComponent implements OnInit {
   responseMessage = '';
   errorMessage = '';
   seats: any[] = [];
+  today = new Date().toISOString().split('T')[0];
 
   constructor(
     private fb: FormBuilder,

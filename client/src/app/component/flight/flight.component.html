@@ -107,7 +107,7 @@
         <div class="col-md-4">
           <label class="form-label">Total Seats</label>
 
-          <input type="number" class="form-control" formControlName="totalSeats"
+          <input type="number" class="form-control" formControlName="totalSeats" min="1"
             [class.is-invalid]="f['totalSeats'].touched && f['totalSeats'].invalid">
 
           <div class="invalid-feedback" *ngIf="f['totalSeats'].touched && f['totalSeats'].invalid">
@@ -119,7 +119,7 @@
         <div class="col-md-4">
           <label class="form-label">Available Seats</label>
 
-          <input type="number" class="form-control" formControlName="available_seats"
+          <input type="number" class="form-control" formControlName="available_seats" min="1"
             [class.is-invalid]="f['available_seats'].touched && f['available_seats'].invalid">
 
           <div class="invalid-feedback" *ngIf="f['available_seats'].touched && f['available_seats'].invalid">
@@ -131,7 +131,7 @@
         <div class="col-md-4">
           <label class="form-label">Price (₹)</label>
 
-          <input type="number" class="form-control" formControlName="price"
+          <input type="number" class="form-control" formControlName="price" min="1"
             [class.is-invalid]="f['price'].touched && f['price'].invalid">
 
           <div class="invalid-feedback" *ngIf="f['price'].touched && f['price'].invalid">

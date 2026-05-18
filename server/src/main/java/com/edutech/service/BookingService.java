@@ -38,7 +38,6 @@ public class BookingService {
     @Autowired
     private SeatRepository seatRepository;
 
-    // ===== EXISTING METHODS (UNCHANGED) =====
 
     public Bookings bookFlight(Long userId, Long flightId, String seatNumbers) {
         User user = userRepository.findById(userId)
@@ -140,7 +139,7 @@ public class BookingService {
 
             // ✅ Header
             document.add(new Paragraph("***************************************"));
-            document.add(new Paragraph("AIRLINE BOARDING PASS"));
+            document.add(new Paragraph("RouteOne BOARDING PASS"));
             document.add(new Paragraph("***************************************"));
             document.add(new Paragraph(" "));
 

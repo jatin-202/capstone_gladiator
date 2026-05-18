@@ -37,41 +37,63 @@
   letter-spacing: 0.03em;
 
   // Override global button hover lift for seats
-  &:hover:not(:disabled) { transform: scale(1.1); }
-  &:active              { transform: scale(0.95) !important; }
+  &:hover:not(:disabled) {
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.95) !important;
+  }
 }
 
 // Available — green
+// ✅ AVAILABLE — soft dark glass (instead of green)
 .btn.btn-success {
-  background: linear-gradient(135deg, #166534, #14532D) !important;
-  border-color: #14532D !important;
-  color: #FFF !important;
-  box-shadow: 0 2px 4px rgba(22,101,52,0.2);
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
 
   &:hover {
-    background: linear-gradient(135deg, #14532D, #0F3F21) !important;
-    box-shadow: 0 3px 8px rgba(22,101,52,0.35);
+    background: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
   }
 }
 
 // Selected — gold
+// ✅ SELECTED — GOLD (NO BLACK)
 .btn.btn-warning {
-  background: linear-gradient(135deg, var(--ai-gold), var(--ai-gold-dark)) !important;
-  border-color: var(--ai-gold-dark) !important;
-  color: #1A0F0F !important;
-  box-shadow: 0 2px 6px rgba(201,168,76,0.4);
-  transform: scale(1.08);
+
+  background: linear-gradient(135deg,
+      #f5c542,
+      #d4a92c) !important;
+
+  border: 1px solid rgba(245, 197, 66, 0.8) !important;
+
+  color: #000 !important;
+
+  box-shadow:
+    0 0 6px rgba(245, 197, 66, 0.6),
+    0 0 14px rgba(245, 197, 66, 0.3);
+
+  transform: scale(1.1);
 }
 
 // Booked — red/muted
 .btn.btn-danger {
-  background: linear-gradient(135deg, #991B1B, #7F1D1D) !important;
-  border-color: #7F1D1D !important;
-  color: rgba(255,255,255,0.65) !important;
-  opacity: 0.65;
-  cursor: not-allowed;
+  background: rgba(255, 80, 80, 0.25) !important;
+  border: 1px solid rgba(255, 80, 80, 0.4) !important;
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0.7;
 
-  &:hover { transform: none !important; box-shadow: none; }
+  &:hover {
+    transform: none !important;
+    box-shadow: none;
+  }
+}
+
+.btn:focus,
+.btn:active {
+  box-shadow: none !important;
 }
 
 // Legend badges

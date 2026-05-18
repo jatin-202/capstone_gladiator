@@ -40,7 +40,7 @@
       <div class="form-row">
         <div class="input-group">
           <label>Scheduled Date</label>
-          <input type="date" formControlName="scheduledDate" />
+          <input type="date" formControlName="scheduledDate" [min]="today" />
         </div>
 
         <div class="input-group">

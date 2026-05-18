@@ -30,10 +30,6 @@ public class FlightsService {
         if (flight.getDepartureDate() != null) {
             LocalDate today = LocalDate.now();
 
-            // Allow today and future, block only strictly past dates
-            // if (flight.getDepartureDate().isBefore(today)) {
-            // throw new IllegalStateException("Departure date cannot be in the past.");
-            // }
         }
         return flightsRepository.save(flight);
     }
