@@ -36,14 +36,33 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody User user) {
         try {
+
+            // ✅ CHECK USERNAME
+            if (userService.existsByUsername(user.getUsername())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(java.util.Map.of(
+                                "field", "username",
+                                "message", "Username already exists"));
+            }
+
+            // ✅ CHECK EMAIL
+            if (userService.existsByEmail(user.getEmail())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(java.util.Map.of(
+                                "field", "email",
+                                "message", "Email already exists"));
+            }
+
+            // ✅ SAVE USER
             User saved = userService.registerUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 
         } catch (Exception e) {
-            e.printStackTrace(); // 🔥 prints actual error in console
+            e.printStackTrace();
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(java.util.Collections.singletonMap("message", e.getMessage()));
+                    .body(java.util.Map.of(
+                            "message", "Registration failed"));
         }
     }
 
@@ -55,7 +74,7 @@ public class AuthController {
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(), request.getPassword()));
 
-                            //CHECKINH  PAS ABOVE
+            // CHECKINH PAS ABOVE
             User user = userService.findByUsername(request.getUsername());
             String token = jwtUtil.generateToken(
                     request.getUsername(), user.getRole().name());
@@ -67,14 +86,14 @@ public class AuthController {
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-    e.printStackTrace();
+            e.printStackTrace();
 
-    java.util.Map<String, Object> error = new java.util.HashMap<>();
-    error.put("status", 401);  // ✅ ADD THIS
-    error.put("message", "Invalid username or password");
+            java.util.Map<String, Object> error = new java.util.HashMap<>();
+            error.put("status", 401); // ✅ ADD THIS
+            error.put("message", "Invalid username or password");
 
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
-}
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+        }
     }
 
     // Return the currently authenticated user's profile
@@ -83,4 +102,18 @@ public class AuthController {
         User user = userService.findByUsername(userDetails.getUsername());
         return ResponseEntity.ok(user);
     }
+    // ✅ REAL-TIME USERNAME CHECK
+@GetMapping("/check-username/{username}")
+public ResponseEntity<Boolean> checkUsername(@PathVariable String username) {
+    boolean exists = userService.existsByUsername(username);
+    return ResponseEntity.ok(exists);
+}
+
+// ✅ REAL-TIME EMAIL CHECK
+@GetMapping("/check-email/{email}")
+public ResponseEntity<Boolean> checkEmail(@PathVariable String email) {
+    boolean exists = userService.existsByEmail(email);
+    return ResponseEntity.ok(exists);
+}
+
 }

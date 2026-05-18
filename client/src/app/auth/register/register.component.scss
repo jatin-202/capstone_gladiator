@@ -11,6 +11,38 @@
   z-index: 999;
   background: #05080f;
 }
+// ✅ Real-time validation styles
+
+.success-text {
+  color: #4caf50;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.checking-text {
+  color: #ffc107;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.error-text {
+  color: #ff4444;
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+// ✅ Green border for available
+input.valid-input {
+  border: 1.5px solid #4caf50 !important;
+}
+
+// ✅ Red border for taken / invalid
+input.invalid {
+  border: 1.5px solid #ff4444 !important;
+}
 
 $gold: #ffd700;
 $dark: #0b1220;

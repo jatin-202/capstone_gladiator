@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
-        // Role stored as "ADMIN", "PASSENGER", "PILOT" — used with hasAuthority() in SecurityConfig
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
@@ -42,13 +42,25 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    // Find a user by username (used in controllers to get the logged-in user)
+    // Find a user by username
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    // Find all users with a specific role (e.g., all PILOTs for the assign-pilot dropdown)
+    // Find all users by role
     public java.util.List<User> findByRole(com.edutech.entity.Role role) {
         return userRepository.findByRole(role);
+    }
+
+    // ✅ NEW METHODS ADDED BELOW
+
+    // CHECK USERNAME EXISTS
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    // CHECK EMAIL EXISTS
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }

@@ -23,4 +23,14 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/auth/register`, user);
   }
+
+  // ✅ REAL-TIME: Check username exists
+  checkUsername(username: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/api/auth/check-username/${username}`);
+  }
+
+  // ✅ REAL-TIME: Check email exists
+  checkEmail(email: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.baseUrl}/api/auth/check-email/${email}`);
+  }
 }

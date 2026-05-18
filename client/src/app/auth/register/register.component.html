@@ -1,8 +1,7 @@
 <div class="register-page">
 
   <!-- VIDEO -->
-  <video autoplay muted loop playsinline preload="auto" class="video-bg"
-    src="assets/videos/32975-394513987.mp4">
+  <video autoplay muted loop playsinline preload="auto" class="video-bg" src="assets/videos/32975-394513987.mp4">
   </video>
 
   <div class="overlay"></div>
@@ -29,16 +28,32 @@
           <div class="input-group">
             <label>Username</label>
 
-            <input type="text"
-              formControlName="username"
-              placeholder="Enter username"
-              [class.invalid]="f.username.touched && f.username.invalid">
+            <input type="text" formControlName="username" placeholder="Enter username"
+              [class.invalid]="(f.username.touched && f.username.invalid) || fieldErrors.username || usernameStatus === 'taken'"
+              [class.valid-input]="usernameStatus === 'available'" (input)="fieldErrors.username = null">
 
+            <!-- SYNC VALIDATION ERRORS -->
             <div class="error-text" *ngIf="f.username.touched && f.username.invalid">
               <div *ngIf="f.username.errors?.['required']">Username is required</div>
               <div *ngIf="f.username.errors?.['minlength']">Minimum 3 characters</div>
               <div *ngIf="f.username.errors?.['maxlength']">Max 20 characters</div>
               <div *ngIf="f.username.errors?.['pattern']">Only letters, numbers & underscore</div>
+            </div>
+
+            <!-- BACKEND ERROR (from submit) -->
+            <div class="error-text" *ngIf="fieldErrors.username">
+              {{ fieldErrors.username }}
+            </div>
+
+            <!-- ✅ REAL-TIME STATUS -->
+            <div class="checking-text" *ngIf="usernameStatus === 'checking'">
+              ⏳ Checking...
+            </div>
+            <div class="error-text" *ngIf="usernameStatus === 'taken'">
+              ❌ Username already taken
+            </div>
+            <div class="success-text" *ngIf="usernameStatus === 'available'">
+              ✅ Username available
             </div>
           </div>
 
@@ -46,14 +61,30 @@
           <div class="input-group">
             <label>Email</label>
 
-            <input type="email"
-              formControlName="email"
-              placeholder="you@example.com"
-              [class.invalid]="f.email.touched && f.email.invalid">
+            <input type="email" formControlName="email" placeholder="you@example.com"
+              [class.invalid]="(f.email.touched && f.email.invalid) || fieldErrors.email || emailStatus === 'taken'"
+              [class.valid-input]="emailStatus === 'available'" (input)="fieldErrors.email = null">
 
+            <!-- SYNC VALIDATION ERRORS -->
             <div class="error-text" *ngIf="f.email.touched && f.email.invalid">
               <div *ngIf="f.email.errors?.['required']">Email is required</div>
               <div *ngIf="f.email.errors?.['email']">Enter a valid email</div>
+            </div>
+
+            <!-- BACKEND ERROR (from submit) -->
+            <div class="error-text" *ngIf="fieldErrors.email">
+              {{ fieldErrors.email }}
+            </div>
+
+            <!-- ✅ REAL-TIME STATUS -->
+            <div class="checking-text" *ngIf="emailStatus === 'checking'">
+              ⏳ Checking...
+            </div>
+            <div class="error-text" *ngIf="emailStatus === 'taken'">
+              ❌ Email already registered
+            </div>
+            <div class="success-text" *ngIf="emailStatus === 'available'">
+              ✅ Email available
             </div>
           </div>
 
@@ -66,9 +97,7 @@
           <div class="input-group">
             <label>Password</label>
 
-            <input type="password"
-              formControlName="password"
-              placeholder="••••••••"
+            <input type="password" formControlName="password" placeholder="••••••••"
               [class.invalid]="f.password.touched && f.password.invalid">
 
             <div class="error-text" *ngIf="f.password.touched && f.password.invalid">
@@ -84,14 +113,14 @@
           <div class="input-group">
             <label>Contact Number</label>
 
-            <input type="number"
-              formControlName="contactNumber"
-              placeholder="1234567890"
+            <input type="number" formControlName="contactNumber" placeholder="1234567890"
               [class.invalid]="f.contactNumber.touched && f.contactNumber.invalid">
 
+
             <div class="error-text" *ngIf="f.contactNumber.touched && f.contactNumber.invalid">
-              Must be 10 digit mobile number
+              Must be 10 digits starting with 6, 7, 8, or 9
             </div>
+
           </div>
 
         </div>
@@ -106,9 +135,9 @@
           </select>
         </div>
 
-        <!-- SUBMIT -->
+        <!-- ✅ SUBMIT (also blocked if taken) -->
         <button type="submit" class="btn-gold"
-          [disabled]="registerForm.invalid">
+          [disabled]="registerForm.invalid || usernameStatus === 'taken' || emailStatus === 'taken'">
           Register →
         </button>
 

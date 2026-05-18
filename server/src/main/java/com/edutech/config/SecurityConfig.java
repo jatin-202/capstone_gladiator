@@ -47,16 +47,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .csrf().disable()
-            .cors()
-            .and()
-            .sessionManagement()
+                .csrf().disable()
+                .cors()
+                .and()
+                .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-            .authorizeRequests()
+                .and()
+                .authorizeRequests()
 
                 // ✅ Public APIs
                 .antMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                // ✅ Allow real-time validation APIs
+                .antMatchers(HttpMethod.GET, "/api/auth/check-username/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/auth/check-email/**").permitAll()
 
                 // ✅ ✅ ADD THIS (FIX FOR YOUR ISSUE)
                 // Allow GET APIs for ADMIN and PILOT
@@ -79,11 +82,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // ✅ All other APIs require login
                 .antMatchers("/api/**").authenticated()
 
-            .and()
-            .exceptionHandling()
+                .and()
+                .exceptionHandling()
                 .authenticationEntryPoint(
                         (req, res, ex) -> res.sendError(HttpServletResponse.SC_FORBIDDEN))
-            .and()
-            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                .and()
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
