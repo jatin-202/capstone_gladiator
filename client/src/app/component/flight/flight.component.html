@@ -65,6 +65,13 @@
           <div class="invalid-feedback" *ngIf="f['destination'].touched && f['destination'].invalid">
             Destination is required
           </div>
+
+          <div class="text-danger mt-1" *ngIf="flightForm.errors?.['sameLocation'] &&
+            (f['source'].touched || f['destination'].touched)">
+
+            Source and Destination cannot be same
+
+          </div>
         </div>
 
         <!-- Departure Date -->
@@ -156,11 +163,21 @@
       <hr>
       <h6>Seat Details</h6>
 
-      <button type="button" class="btn btn-sm btn-outline-primary mb-2" (click)="addSeat()">
+      <!-- <button type="button" class="btn btn-sm btn-outline-primary mb-2" (click)="addSeat()">
         + Add Seat
-      </button>
+      </button> -->
+      <hr>
 
-      <div formArrayName="seats">
+      <h6>Auto Generated Seats</h6>
+
+      <div class="alert alert-info">
+        Seat layout is generated automatically from
+        <strong>Total Seats</strong>
+        and
+        <strong>Base Price</strong>.
+      </div>
+
+      <!-- <div formArrayName="seats">
         <div *ngFor="let seat of seats.controls; let i = index" [formGroupName]="i"
           class="row g-2 border p-2 rounded mb-2">
 
@@ -192,7 +209,7 @@
           </div>
 
         </div>
-      </div>
+      </div> -->
 
       <button type="submit" class="btn btn-success mt-3" [disabled]="flightForm.invalid">
         Create Flight

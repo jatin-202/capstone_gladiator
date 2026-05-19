@@ -11,10 +11,10 @@ export class SeatSelectionComponent implements OnInit, OnChanges {
 
   @Input() flightId!: number;
   @Input() seats: Seat[] = [];
-  @Output() seatSelected = new EventEmitter<string>();
-
+  @Output() seatSelected = new EventEmitter<any[]>();
   seatMap: any[][] = [];
   selectedSeatNumber: string | null = null;
+  selectedSeats: any[] = [];
 
   constructor(private seatService: SeatService) { }
 
@@ -46,31 +46,98 @@ export class SeatSelectionComponent implements OnInit, OnChanges {
     }
     this.seatMap = rowOrder.map(row => rowMap[row]);
   }
+  getTotalRows(): number {
 
-  selectSeat(seat: any): void {
-  if (seat.booked) return;
-
-  const maxSeats = Number(localStorage.getItem('travellerCount') || 1);
-
-  let selectedList = this.selectedSeatNumber
-    ? this.selectedSeatNumber.split(',').map(s => s.trim())
-    : [];
-
-  const index = selectedList.indexOf(seat.seatNumber);
-
-  // If already selected → remove
-  if (index > -1) {
-    selectedList.splice(index, 1);
-  } else {
-    // Prevent selecting more than allowed
-    if (selectedList.length >= maxSeats) {
-      alert(`You can select only ${maxSeats} seats`);
-      return;
-    }
-    selectedList.push(seat.seatNumber);
+    return this.seatMap.length;
   }
 
-  this.selectedSeatNumber = selectedList.join(',');
-  this.seatSelected.emit(this.selectedSeatNumber);
-}
+  getFirstClassRows(): number {
+
+    return Math.max(
+      1,
+      Math.ceil(this.getTotalRows() * 0.10)
+    );
+  }
+
+  getBusinessRows(): number {
+
+    return Math.max(
+      2,
+      Math.ceil(this.getTotalRows() * 0.20)
+    );
+  }
+
+  isFirstClassRow(index: number): boolean {
+
+    return index < this.getFirstClassRows();
+  }
+
+  isBusinessClassRow(index: number): boolean {
+
+    return (
+      index >= this.getFirstClassRows() &&
+      index <
+      this.getFirstClassRows() +
+      this.getBusinessRows()
+    );
+  }
+
+  isEconomyClassRow(index: number): boolean {
+
+    return (
+      index >=
+      this.getFirstClassRows() +
+      this.getBusinessRows()
+    );
+  }
+  isSeatSelected(seatNumber: string): boolean {
+
+    if (!this.selectedSeatNumber) {
+      return false;
+    }
+
+    return this.selectedSeatNumber
+      .split(',')
+      .map(s => s.trim())
+      .includes(seatNumber);
+  }
+
+  selectSeat(seat: any): void {
+
+    if (seat.booked) return;
+
+    const maxSeats = Number(
+      localStorage.getItem('travellerCount') || 1
+    );
+
+    const existingIndex = this.selectedSeats.findIndex(
+      s => s.seatNumber === seat.seatNumber
+    );
+
+    // REMOVE seat
+    if (existingIndex > -1) {
+
+      this.selectedSeats.splice(existingIndex, 1);
+
+    } else {
+
+      // LIMIT seat selection
+      if (this.selectedSeats.length >= maxSeats) {
+
+        alert(`You can select only ${maxSeats} seats`);
+
+        return;
+      }
+
+      this.selectedSeats.push(seat);
+    }
+
+    // Update selected seat numbers
+    this.selectedSeatNumber = this.selectedSeats
+      .map(s => s.seatNumber)
+      .join(',');
+
+    // Emit FULL seats
+    this.seatSelected.emit(this.selectedSeats);
+  }
 }

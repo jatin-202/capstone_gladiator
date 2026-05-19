@@ -55,45 +55,115 @@ public class Flights {
     @JsonManagedReference
     private List<Seat> seats;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getFlight_number() { return flight_number; }
-    public void setFlight_number(String flight_number) { this.flight_number = flight_number; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getFlight_name() { return flight_name; }
-    public void setFlight_name(String flight_name) { this.flight_name = flight_name; }
+    public String getFlight_number() {
+        return flight_number;
+    }
 
-    public String getSource() { return source; }
-    public void setSource(String source) { this.source = source; }
+    public void setFlight_number(String flight_number) {
+        this.flight_number = flight_number;
+    }
 
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
+    public String getFlight_name() {
+        return flight_name;
+    }
 
-    public LocalDate getDepartureDate() { return departureDate; }
-    public void setDepartureDate(LocalDate departureDate) { this.departureDate = departureDate; }
+    public void setFlight_name(String flight_name) {
+        this.flight_name = flight_name;
+    }
 
-    public LocalTime getDepartureTime() { return departureTime; }
-    public void setDepartureTime(LocalTime departureTime) { this.departureTime = departureTime; }
+    public String getSource() {
+        return source;
+    }
 
-    public LocalTime getArrivalTime() { return arrivalTime; }
-    public void setArrivalTime(LocalTime arrivalTime) { this.arrivalTime = arrivalTime; }
+    public void setSource(String source) {
+        this.source = source;
+    }
 
-    public int getTotalSeats() { return totalSeats; }
-    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
+    public String getDestination() {
+        return destination;
+    }
 
-    public int getAvailable_seats() { return available_seats; }
-    public void setAvailable_seats(int available_seats) { this.available_seats = available_seats; }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
-    public boolean isAvailable() { return isAvailable; }
-    public void setAvailable(boolean available) { this.isAvailable = available; }
+    public LocalDate getDepartureDate() {
+        return departureDate;
+    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = departureDate;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
 
-    public List<Seat> getSeats() { return seats; }
-    public void setSeats(List<Seat> seats) { this.seats = seats; }
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
+    }
+
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public int getAvailable_seats() {
+        return available_seats;
+    }
+
+    public void setAvailable_seats(int available_seats) {
+        this.available_seats = available_seats;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public void setSeats(List<Seat> seats) {
+        this.seats = seats;
+    }
 }

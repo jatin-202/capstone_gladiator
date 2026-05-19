@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   showPassword = false;
   showMessage = false;
   showError = false;
-
   responseMessage = '';
   errorMessage = '';
 
@@ -152,42 +151,42 @@ export class RegisterComponent implements OnInit, OnDestroy {
     } else {
       formData.contactNumber = Number(formData.contactNumber);
     }
-this.httpService.registerUser(formData).subscribe({
+    this.httpService.registerUser(formData).subscribe({
 
-  next: (res: any) => {
+      next: (res: any) => {
 
-    // ✅ OTP REQUIRED → redirect to verify page
-    if (res.otpRequired) {
-      localStorage.setItem('otpEmail', res.email);
-      localStorage.setItem('otpUsername', res.username);
-      this.router.navigate(['/verify-otp'], {
-        queryParams: { type: 'register' }
-      });
-      return;
-    }
+        // ✅ OTP REQUIRED → redirect to verify page
+        if (res.otpRequired) {
+          localStorage.setItem('otpEmail', res.email);
+          localStorage.setItem('otpUsername', res.username);
+          this.router.navigate(['/verify-otp'], {
+            queryParams: { type: 'register' }
+          });
+          return;
+        }
 
-    // Fallback (if OTP ever disabled)
-    this.showMessage = true;
-    this.responseMessage = `Registered successfully as ${res.username}`;
-    this.showError = false;
-    setTimeout(() => this.router.navigate(['/login']), 1500);
-  },
+        // Fallback (if OTP ever disabled)
+        this.showMessage = true;
+        this.responseMessage = `Registered successfully as ${res.username}`;
+        this.showError = false;
+        setTimeout(() => this.router.navigate(['/login']), 1500);
+      },
 
-  error: (err) => {
+      error: (err) => {
 
-    // ✅ FIELD LEVEL ERROR HANDLING
-    if (err?.error?.field) {
-      this.fieldErrors[err.error.field] = err.error.message;
-      return;
-    }
+        // ✅ FIELD LEVEL ERROR HANDLING
+        if (err?.error?.field) {
+          this.fieldErrors[err.error.field] = err.error.message;
+          return;
+        }
 
-    // ✅ GENERAL ERROR
-    this.showError = true;
-    this.errorMessage =
-      err?.error?.message ||
-      'Registration failed. Please try again.';
-  }
+        // ✅ GENERAL ERROR
+        this.showError = true;
+        this.errorMessage =
+          err?.error?.message ||
+          'Registration failed. Please try again.';
+      }
 
-});
+    });
   }
 }

@@ -15,21 +15,61 @@ export class BookingsComponent implements OnInit {
   responseMessage = '';
   errorMessage = '';
 
-  constructor(private httpService: HttpService, private authService: AuthService) {}
+  constructor(private httpService: HttpService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadBookings();
   }
 
   loadBookings(): void {
+
     this.httpService.getMyBookings().subscribe({
+
       next: (data) => {
+
         this.bookings = data;
+
         this.showError = false;
+
+        // Calculate actual seat pricing
+        this.bookings.forEach((booking: any) => {
+
+          this.httpService
+            .getSeats(booking.flight.id)
+            .subscribe({
+
+              next: (seats: any[]) => {
+
+                const bookedSeatNumbers =
+                  booking.seatNumbers
+                    ?.split(',')
+                    .map((s: string) => s.trim()) || [];
+
+                // Find selected seats
+                const selectedSeats = seats.filter(
+                  seat =>
+                    bookedSeatNumbers.includes(
+                      seat.seatNumber
+                    )
+                );
+
+                // Sum actual seat prices
+                booking.calculatedPrice =
+                  selectedSeats.reduce(
+                    (sum, seat) => sum + seat.price,
+                    0
+                  );
+              }
+            });
+        });
       },
+
       error: () => {
+
         this.showError = true;
-        this.errorMessage = 'Failed to load bookings.';
+
+        this.errorMessage =
+          'Failed to load bookings.';
       }
     });
   }

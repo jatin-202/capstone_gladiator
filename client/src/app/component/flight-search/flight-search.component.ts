@@ -15,7 +15,7 @@ export class FlightSearchComponent implements OnInit {
   selectedFlight: any = null;
   totalPrice = 0;
   seatNumbers = '';
-  sourceList: string[] = [];
+  selectedSeats: any[] = []; sourceList: string[] = [];
   destinationList: string[] = [];
   dropdownOpen = false;
   showMessage = false;
@@ -101,18 +101,107 @@ export class FlightSearchComponent implements OnInit {
     localStorage.setItem('travellerCount', totalTravellers.toString());
     // ✅ ✅ END BLOCK
 
-    this.totalPrice =
-      adult * flight.price +
-      child * flight.price * 0.75 +
-      infant * flight.price * 0.5;
+    this.totalPrice = this.totalPrice = flight.price;
 
     this.httpService.getSeats(flight.id).subscribe({
-      next: (data) => { this.seats = data; }
+
+      next: (data) => {
+
+        const selectedClass =
+          this.searchForm.get('travelClass')?.value;
+
+        // Dynamic filtering
+        this.seats = data.filter((seat: any) => {
+
+          const row = Number(seat.rowLabel);
+
+          const totalRows =
+            Math.ceil(data.length / 6);
+
+          const firstClassRows =
+            Math.max(1, Math.ceil(totalRows * 0.10));
+
+          const businessRows =
+            Math.max(2, Math.ceil(totalRows * 0.20));
+
+          if (selectedClass === 'First') {
+            return row <= firstClassRows;
+          }
+
+          if (selectedClass === 'Business') {
+            return (
+              row > firstClassRows &&
+              row <= firstClassRows + businessRows
+            );
+          }
+
+          // Economy
+          return (
+            row > firstClassRows + businessRows
+          );
+        });
+      }
     });
   }
 
-  onSeatSelected(seatNum: string): void {
-    this.seatNumbers = seatNum;
+  // selectedSeats: any[] = [];
+
+  onSeatSelected(seats: any[]): void {
+
+    this.selectedSeats = seats;
+
+    this.seatNumbers = seats
+      .map(s => s.seatNumber)
+      .join(',');
+
+    // Calculate dynamic total
+    this.calculateTotalPrice();
+  }
+
+  calculateTotalPrice(): void {
+
+    if (!this.selectedFlight) return;
+
+    const adult =
+      this.searchForm.get('adult')?.value || 0;
+
+    const child =
+      this.searchForm.get('child')?.value || 0;
+
+    const infant =
+      this.searchForm.get('infant')?.value || 0;
+
+    // Seat total
+    const baseSeatTotal = this.selectedSeats.reduce(
+      (sum, seat) => sum + seat.price,
+      0
+    );
+
+    // Per passenger average
+    const avgSeatPrice =
+      this.selectedSeats.length > 0
+        ? baseSeatTotal / this.selectedSeats.length
+        : 0;
+
+    // Final calculation
+    this.totalPrice =
+      (adult * avgSeatPrice) +
+      (child * avgSeatPrice * 0.75) +
+      (infant * avgSeatPrice * 0.5);
+
+    // Travel class multiplier
+    const travelClass =
+      this.searchForm.get('travelClass')?.value;
+
+    if (travelClass === 'Business') {
+      this.totalPrice *= 1.8;
+    }
+
+    if (travelClass === 'First') {
+      this.totalPrice *= 2.5;
+    }
+
+    this.totalPrice = Math.round(this.totalPrice);
   }
 
   bookSelectedFlight(): void {

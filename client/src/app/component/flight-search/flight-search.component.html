@@ -197,7 +197,13 @@
             </div>
 
             <div class="col-6">
-              <p><strong>Total Price:</strong> ₹{{ totalPrice }}</p>
+              <p>
+                <strong>
+                  {{ totalPrice > 0 ? 'Total Price' : 'Starting From' }}:
+                </strong>
+
+                ₹{{ totalPrice }}
+              </p>
             </div>
 
             <div class="col-6">

@@ -1,112 +1,469 @@
 // ============================================================
-// SEAT MAP — Interactive cabin seat selection
+// AIRCRAFT SEAT MAP — PREMIUM CABIN UI
+// ============================================================
+// ============================================================
+// FLIGHT DETAILS MODAL CENTER ALIGN
+// ============================================================
+
+.modal-body {
+
+  text-align: center;
+}
+
+// rows center
+.modal-body .col-6 {
+
+  justify-content: center;
+}
+
+// each info block
+.modal-body p {
+
+  margin-bottom: 14px;
+
+  font-size: 0.95rem;
+
+  color: rgba(255, 255, 255, 0.9);
+}
+
+// labels
+.modal-body strong {
+
+  color: #f5c542;
+
+  font-weight: 700;
+}
+
+// selected seat highlight
+.modal-body p:last-child {
+
+  font-size: 1rem;
+
+  font-weight: 700;
+}
+
+// section title
+.modal-title {
+
+  width: 100%;
+
+  text-align: center;
+
+  color: #f5c542;
+
+  font-weight: 800;
+
+  letter-spacing: 0.06em;
+}
+
+:host {
+  display: block;
+}
+
+// ============================================================
+// MAIN CONTAINER
 // ============================================================
 
 .mt-3 {
+
+  position: relative;
+
+  margin-top: 20px;
+
+  padding: 1.8rem;
+
+  background:
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 0.03),
+      rgba(255, 255, 255, 0.015));
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 28px;
+
+  overflow: hidden;
+
+  backdrop-filter: blur(10px);
+
+  // airplane body effect
+  &::before {
+
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+
+    border-left: 2px solid rgba(255, 255, 255, 0.04);
+    border-right: 2px solid rgba(255, 255, 255, 0.04);
+
+    border-radius: 30px;
+
+    pointer-events: none;
+  }
+
   h6 {
-    font-size: 0.8rem;
+
+    text-align: center;
+
+    margin-bottom: 1.4rem;
+
+    font-size: 0.85rem;
+
     font-weight: 700;
+
+    letter-spacing: 0.18em;
+
+    color: #f5c542;
+
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--ai-text-secondary);
-    margin-bottom: 1rem;
   }
 }
 
-// Seat row
-.d-flex.gap-2.mb-2 {
-  flex-wrap: wrap;
-  gap: 6px !important;
-  margin-bottom: 6px !important;
+// ============================================================
+// CABIN LABELS
+// ============================================================
+
+.cabin-label {
+
+  text-align: center;
+
+  margin: 26px 0 16px;
+
+  font-size: 0.82rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.22em;
+
+  color: #f5c542;
+
+  text-transform: uppercase;
 }
 
-// Individual seat button
-.btn.btn-sm {
-  width: 44px;
-  height: 40px;
-  padding: 0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  border-radius: var(--ai-r-xs) !important;
-  border-width: 2px;
-  cursor: pointer;
-  transition: all 0.14s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0.03em;
+// ============================================================
+// EACH ROW
+// ============================================================
 
-  // Override global button hover lift for seats
+.seat-row {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 14px;
+}
+
+// ============================================================
+// ROW NUMBER
+// ============================================================
+
+.row-number {
+
+  width: 38px;
+
+  text-align: center;
+
+  color: #f5c542;
+
+  font-weight: 800;
+
+  font-size: 1.1rem;
+}
+
+// ============================================================
+// AISLE GAP
+// ============================================================
+
+.aircraft-aisle {
+
+  width: 54px;
+}
+
+// ============================================================
+// BASE SEAT BUTTON
+// ============================================================
+
+.seat-btn {
+
+  width: 56px;
+
+  min-width: 56px;
+
+  height: 46px;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background:
+    linear-gradient(145deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.03));
+
+  color: #fff;
+
+  font-size: 0.72rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  cursor: pointer;
+
+  position: relative;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+
+  // seat top reflection
+  &::before {
+
+    content: '';
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+      linear-gradient(to bottom,
+        rgba(255, 255, 255, 0.14),
+        transparent 42%);
+
+    pointer-events: none;
+  }
+
   &:hover:not(:disabled) {
-    transform: scale(1.1);
+
+    transform: translateY(-2px) scale(1.05);
+
+    background:
+      linear-gradient(145deg,
+        rgba(255, 255, 255, 0.14),
+        rgba(255, 255, 255, 0.06));
   }
 
   &:active {
-    transform: scale(0.95) !important;
+
+    transform: scale(0.96);
   }
 }
 
-// Available — green
-// ✅ AVAILABLE — soft dark glass (instead of green)
-.btn.btn-success {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #fff !important;
+// ============================================================
+// WINDOW SEATS (A/F)
+// ============================================================
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
-  }
+.window-seat {
+
+  border: 1px solid rgba(0, 140, 255, 0.55);
+
+  box-shadow:
+    0 0 8px rgba(0, 140, 255, 0.18);
 }
 
-// Selected — gold
-// ✅ SELECTED — GOLD (NO BLACK)
-.btn.btn-warning {
+// ============================================================
+// AISLE SEATS (C/D)
+// ============================================================
 
-  background: linear-gradient(135deg,
+.aisle-seat {
+
+  border: 1px solid rgba(245, 197, 66, 0.55);
+
+  box-shadow:
+    0 0 8px rgba(245, 197, 66, 0.16);
+}
+
+// ============================================================
+// MIDDLE SEATS (B/E)
+// ============================================================
+
+.middle-seat {
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+// ============================================================
+// SELECTED SEAT
+// ============================================================
+
+.selected-seat {
+
+  background:
+    linear-gradient(135deg,
       #f5c542,
       #d4a92c) !important;
 
-  border: 1px solid rgba(245, 197, 66, 0.8) !important;
+  border: 1px solid rgba(245, 197, 66, 0.85) !important;
 
   color: #000 !important;
 
   box-shadow:
-    0 0 6px rgba(245, 197, 66, 0.6),
-    0 0 14px rgba(245, 197, 66, 0.3);
+    0 0 10px rgba(245, 197, 66, 0.55),
+    0 0 20px rgba(245, 197, 66, 0.3);
 
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
-// Booked — red/muted
-.btn.btn-danger {
-  background: rgba(255, 80, 80, 0.25) !important;
-  border: 1px solid rgba(255, 80, 80, 0.4) !important;
-  color: rgba(255, 255, 255, 0.7);
-  opacity: 0.7;
+// ============================================================
+// BOOKED SEAT
+// ============================================================
+
+.booked-seat {
+
+  background:
+    linear-gradient(145deg,
+      rgba(255, 80, 80, 0.35),
+      rgba(255, 80, 80, 0.18)) !important;
+
+  border: 1px solid rgba(255, 80, 80, 0.45) !important;
+
+  color: rgba(255, 255, 255, 0.7) !important;
+
+  opacity: 0.75;
+
+  cursor: not-allowed;
 
   &:hover {
+
     transform: none !important;
-    box-shadow: none;
+
+    box-shadow: none !important;
   }
 }
 
+// ============================================================
+// REMOVE BOOTSTRAP FOCUS
+// ============================================================
+
 .btn:focus,
 .btn:active {
+
   box-shadow: none !important;
 }
 
-// Legend badges
-small.text-muted {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
+// ============================================================
+// LEGEND
+// ============================================================
 
-  .badge {
-    font-size: 0.7rem;
-    padding: 0.3em 0.7em;
-    border-radius: var(--ai-r-full);
+.seat-legend {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+  margin-top: 1.8rem;
+}
+
+.legend-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: rgba(255, 255, 255, 0.72);
+
+  font-size: 0.76rem;
+}
+
+.legend-box {
+
+  width: 18px;
+
+  height: 18px;
+
+  border-radius: 6px;
+}
+
+// ============================================================
+// LEGEND COLORS
+// ============================================================
+
+.legend-available {
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.legend-selected {
+
+  background:
+    linear-gradient(135deg,
+      #f5c542,
+      #d4a92c);
+}
+
+.legend-booked {
+
+  background: rgba(255, 80, 80, 0.28);
+}
+
+.legend-window {
+
+  border: 1px solid rgba(0, 140, 255, 0.8);
+}
+
+.legend-aisle {
+
+  border: 1px solid rgba(245, 197, 66, 0.8);
+}
+
+.legend-middle {
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+// ============================================================
+// RESPONSIVE
+// ============================================================
+
+@media (max-width: 768px) {
+
+  .seat-btn {
+
+    width: 48px;
+
+    min-width: 48px;
+
+    height: 42px;
+
+    font-size: 0.68rem;
+  }
+
+  .aircraft-aisle {
+
+    width: 26px;
+  }
+
+  .row-number {
+
+    width: 28px;
+
+    font-size: 0.9rem;
   }
 }

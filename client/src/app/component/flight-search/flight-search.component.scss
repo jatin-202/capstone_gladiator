@@ -5,8 +5,57 @@
   $card-surface: rgba(255, 255, 255, 0.035);
   $border: rgba(245, 197, 66, 0.14);
   $text-muted: rgba(255, 255, 255, 0.6);
+
   :host {
     display: block;
+  }
+
+  // ============================================================
+  // TRAVEL CLASS SELECT FIX
+  // ============================================================
+
+  select.form-select {
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(245, 197, 66, 0.18) !important;
+    color: #fff !important;
+
+    border-radius: 10px;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    transition: all 0.2s ease;
+
+    appearance: none;
+
+    &:focus {
+      border-color: rgba(245, 197, 66, 0.5) !important;
+
+      box-shadow:
+        0 0 0 3px rgba(245, 197, 66, 0.12),
+        0 0 12px rgba(245, 197, 66, 0.08) !important;
+    }
+  }
+
+  // Dropdown option styling
+  select.form-select option {
+
+    background: #0b1120 !important;
+
+    color: #ffffff !important;
+
+    padding: 10px;
+  }
+
+  // Hover not supported everywhere
+  select.form-select option:hover {
+    background: rgba(245, 197, 66, 0.2);
+  }
+
+  // Selected option
+  select.form-select option:checked {
+    background: #1b2238 !important;
+    color: $gold !important;
   }
 
   // PAGE
@@ -127,11 +176,9 @@
 
   // HEADER
   .flight-table thead tr {
-    background: linear-gradient(
-      90deg,
-      rgba(245, 197, 66, 0.15),
-      rgba(245, 197, 66, 0.05)
-    );
+    background: linear-gradient(90deg,
+        rgba(245, 197, 66, 0.15),
+        rgba(245, 197, 66, 0.05));
   }
 
   .flight-table th {

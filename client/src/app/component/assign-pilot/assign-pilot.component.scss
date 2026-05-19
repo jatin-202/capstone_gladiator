@@ -385,3 +385,15 @@ tbody {
     font-size: 1.4rem;
   }
 }
+// ✅ Disabled buttons
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+// ✅ Disabled buttons
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

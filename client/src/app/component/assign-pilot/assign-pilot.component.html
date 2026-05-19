@@ -95,19 +95,31 @@
                 {{ s.status || s.assignStatus }}
               </span>
             </td>
-            <td>
-              <ng-container *ngIf="roleName === 'PILOT'">
-                <button class="action-btn accept" (click)="updateStatus(s.id, 'ACCEPTED')">Accept</button>
-                <button class="action-btn reject" (click)="updateStatus(s.id, 'REJECTED')">Reject</button>
-              </ng-container>
-              <ng-container *ngIf="roleName === 'ADMIN'">
-                <select class="action-select" (change)="updateStatus(s.id, $any($event.target).value)">
-                  <option value="PENDING">PENDING</option>
-                  <option value="CONFIRMED">CONFIRMED</option>
-                  <option value="COMPLETED">COMPLETED</option>
-                </select>
-              </ng-container>
-            </td>
+      <td>
+  <!-- ✅ PILOT: Accept / Reject -->
+  <ng-container *ngIf="roleName === 'PILOT'">
+    <button class="action-btn accept"
+      (click)="updateStatus(s.id, 'ACCEPTED')"
+      [disabled]="s.status === 'ACCEPTED' || s.status === 'REJECTED'">
+      {{ s.status === 'ACCEPTED' ? '✅ Accepted' : 'Accept' }}
+    </button>
+
+    <button class="action-btn reject"
+      (click)="updateStatus(s.id, 'REJECTED')"
+      [disabled]="s.status === 'ACCEPTED' || s.status === 'REJECTED'">
+      {{ s.status === 'REJECTED' ? '❌ Rejected' : 'Reject' }}
+    </button>
+  </ng-container>
+
+  <!-- ✅ ADMIN: Dropdown -->
+  <ng-container *ngIf="roleName === 'ADMIN'">
+    <select class="action-select" (change)="updateStatus(s.id, $any($event.target).value)">
+      <option value="PENDING">PENDING</option>
+      <option value="CONFIRMED">CONFIRMED</option>
+      <option value="COMPLETED">COMPLETED</option>
+    </select>
+  </ng-container>
+</td>
           </tr>
           <tr *ngIf="schedules.length === 0">
             <td colspan="9" class="empty-row">No schedules found</td>

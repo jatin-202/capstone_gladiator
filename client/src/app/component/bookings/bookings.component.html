@@ -52,7 +52,7 @@
             <td>{{ b.flight?.arrivalTime }}</td>
 
             <td>
-              ₹{{ b.flight?.price * (b.seatNumbers?.split(',').length || 1) }}
+              ₹{{ b.calculatedPrice || b.flight?.price }}
             </td>
 
             <!-- STATUS -->
