@@ -5,11 +5,13 @@ import {
   FormGroup,
   Validators,
   AbstractControl,
-  ValidationErrors
+  ValidationErrors,
+  AsyncValidatorFn
 } from '@angular/forms';
 
 import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../../services/auth.service';
+import { debounceTime, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-flight',
@@ -38,7 +40,16 @@ export class FlightComponent implements OnInit {
 
     this.flightForm = this.fb.group({
 
-      flight_number: ['', [Validators.required, Validators.minLength(3)]],
+
+      flight_number: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(6)
+        ],
+        [this.flightNumberValidator()] // ✅ ASYNC VALIDATOR
+      ],
 
       flight_name: ['', [Validators.required, Validators.minLength(3)]],
 
@@ -353,5 +364,24 @@ export class FlightComponent implements OnInit {
     }
 
     return null;
+  }
+
+  flightNumberValidator(): AsyncValidatorFn {
+    return (control) => {
+
+      if (!control.value) {
+        return of(null);
+      }
+
+      return this.httpService.checkFlightNumber(control.value).pipe(
+
+        debounceTime(300),
+
+        map((exists: boolean) => {
+          return exists ? { flightExists: true } : null;
+        })
+
+      );
+    };
   }
 }

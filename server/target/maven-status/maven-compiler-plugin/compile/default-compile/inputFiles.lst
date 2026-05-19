@@ -5,6 +5,7 @@
 /home/coder/app/server/src/main/java/com/edutech/dto/OtpResponse.java
 /home/coder/app/server/src/main/java/com/edutech/entity/Status.java
 /home/coder/app/server/src/main/java/com/edutech/controller/FlightsController.java
+/home/coder/app/server/src/main/java/com/edutech/controller/PaymentController.java
 /home/coder/app/server/src/main/java/com/edutech/dto/LoginRequest.java
 /home/coder/app/server/src/main/java/com/edutech/TicketBookingApplicatonApplication.java
 /home/coder/app/server/src/main/java/com/edutech/util/JwtUtil.java
@@ -18,6 +19,7 @@
 /home/coder/app/server/src/main/java/com/edutech/entity/FlightSchedule.java
 /home/coder/app/server/src/main/java/com/edutech/config/SecurityConfig.java
 /home/coder/app/server/src/main/java/com/edutech/dto/UserDTO.java
+/home/coder/app/server/src/main/java/com/edutech/service/RazorpayService.java
 /home/coder/app/server/src/main/java/com/edutech/controller/SeatController.java
 /home/coder/app/server/src/main/java/com/edutech/service/FlightScheduleService.java
 /home/coder/app/server/src/main/java/com/edutech/config/Configurations.java

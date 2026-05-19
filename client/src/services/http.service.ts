@@ -26,7 +26,7 @@ export class HttpService {
   }
 
   getAllUsers() {
-    return this.http.get<any[]>(`${this.serverName}/api/users`, { 
+    return this.http.get<any[]>(`${this.serverName}/api/users`, {
       headers: this.getHeaders()
     });
   }
@@ -41,6 +41,12 @@ export class HttpService {
   createFlight(flight: any): Observable<any> {
     return this.http.post(`${this.serverName}/api/flights`, flight,
       { headers: this.getHeaders() });
+  }
+
+  checkFlightNumber(flightNumber: string) {
+    return this.http.get<boolean>(
+      `https://orchardsolvemb76.lntedutech.com/project/7484/proxy/3000/api/flights/check-flight/${flightNumber}`
+    );
   }
 
   updateFlight(id: number, flight: any): Observable<any> {

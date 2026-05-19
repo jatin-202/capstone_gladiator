@@ -77,6 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow GET APIs for ADMIN and PILOT
                 // .antMatchers(HttpMethod.GET, "/api/flights").hasAnyAuthority("ADMIN",
                 // "PILOT")
+
+                .antMatchers("/api/flights/check-flight/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/flights").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/pilot/schedule/**").hasAnyAuthority("ADMIN", "PILOT")
 

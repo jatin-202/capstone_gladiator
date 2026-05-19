@@ -14,14 +14,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.edutech.entity.Flights;
+import com.edutech.repository.FlightsRepository;
 import com.edutech.service.FlightsService;
 
 @RestController
-@RequestMapping("/api/flights") @CrossOrigin(origins = "*") public class FlightsController {
+@RequestMapping("/api/flights")
+@CrossOrigin(origins = "*")
+public class FlightsController {
 
     // Injecting service
     @Autowired
     private FlightsService flightsService;
+
+    @Autowired
+    private FlightsRepository flightsRepository;
 
     // Admin: Create a new flight
     @PostMapping
@@ -32,6 +38,11 @@ import com.edutech.service.FlightsService;
         }
         Flights saved = flightsService.saveFlight(flight);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @GetMapping("/check-flight/{flightNumber}")
+    public boolean checkFlightExists(@PathVariable String flightNumber) {
+        return flightsRepository.existsFlightNumber(flightNumber);
     }
 
     // All roles: Get all flights

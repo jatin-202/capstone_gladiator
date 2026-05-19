@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../../services/auth.service';
+import { PaymentService } from '../../services/payment.service';
+
+declare var Razorpay: any;
 
 @Component({
   selector: 'app-flight-search',
@@ -9,6 +12,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./flight-search.component.scss']
 })
 export class FlightSearchComponent implements OnInit {
+
 
   searchForm!: FormGroup;
   flights: any[] = [];
@@ -28,7 +32,8 @@ export class FlightSearchComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private httpService: HttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit(): void {
@@ -212,36 +217,88 @@ export class FlightSearchComponent implements OnInit {
       ? this.seatNumbers.split(',').map(s => s.trim())
       : [];
 
-    // ✅ ✅ ADD THIS BLOCK (DO NOT REMOVE ANYTHING ELSE)
     const requiredSeats = Number(localStorage.getItem('travellerCount') || 1);
 
+    // ✅ Seat validation
     if (seatList.length !== requiredSeats) {
       this.showError = true;
       this.errorMessage = `Please select exactly ${requiredSeats} seats`;
       return;
     }
-    // ✅ ✅ END BLOCK
 
-    this.httpService.bookSeats(this.selectedFlight.id, seatList, userId).subscribe({
-      next: (res) => {
-        this.showMessage = true;
-        this.showError = false;
-        this.responseMessage = 'Booking successful!';
-      },
-      error: (err) => {
+    // ✅ Price check
+    if (!this.selectedFlight || this.totalPrice <= 0) {
+      alert("Invalid booking details");
+      return;
+    }
 
-        console.error('ERROR RESPONSE:', err);
+    // ✅ Create Razorpay order
+    this.paymentService.createOrder(this.totalPrice).subscribe((order: any) => {
 
-        if (err.status === 200 || err.status === 204) {
-          this.showMessage = true;
-          this.showError = false;
-          this.responseMessage = 'Booking successful!';
-          return;
+      const options = {
+        key: 'rzp_test_SrA14PhZjbcV0H',
+        amount: order.amount,
+        currency: 'INR',
+        order_id: order.id,
+        name: 'Flight Booking',
+        description: `Flight ${this.selectedFlight.flight_number}`,
+
+        handler: (response: any) => {
+
+          console.log("Payment response:", response);
+
+          // ✅ optional verification
+          this.paymentService.verifyPayment(response).subscribe({
+            next: () => console.log("Payment verified"),
+            error: () => console.log("Verification failed but continuing booking")
+          });
+
+          // ✅ booking call
+          this.httpService.bookSeats(this.selectedFlight.id, seatList, userId).subscribe({
+            next: () => {
+              this.showMessage = true;
+              this.showError = false;
+              this.responseMessage = '✅ Booking successful & Payment done!';
+              this.selectedFlight = null;
+            },
+            error: (err) => {
+              console.log("Raw booking response:", err);
+
+              if (err.status === 200 || err.status === 204) {
+                this.showMessage = true;
+                this.showError = false;
+                this.responseMessage = '✅ Booking successful & Payment done!';
+                this.selectedFlight = null;
+                return;
+              }
+
+              this.showError = true;
+              this.errorMessage = 'Payment done but booking failed!';
+            }
+          });
+        },
+
+        prefill: {
+          name: 'Passenger',
+          email: 'test@gmail.com',
+          contact: '9000000000'
+        },
+
+        theme: {
+          color: '#d4af37'
         }
+      };
 
-        this.showError = true;
-        this.errorMessage = err?.error?.message || 'Booking failed.';
-      }
-    });
+      const rzp = new Razorpay(options);
+
+      // ✅ payment failure handling
+      rzp.on('payment.failed', (response: any) => {
+        console.error("Payment failed:", response.error);
+        alert("❌ Payment Failed. Try again.");
+      });
+
+      rzp.open();
+
+    }); // ✅ subscribe close
   }
 }

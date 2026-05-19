@@ -28,7 +28,14 @@
             <div *ngIf="f['flight_number'].errors?.['required']"> Flight number is required
             </div>
             <div *ngIf="f['flight_number'].errors?.['minlength']">Min 3 chars</div>
+            <div *ngIf="f['flight_number'].errors?.['maxlength']">Max 6 chars</div>
           </div>
+          <div class="invalid-feedback d-block" *ngIf="f['flight_number'].errors?.['flightExists']">
+
+            Flight number already exists
+
+          </div>
+
         </div>
 
         <!-- Flight Name ✅ FIXED -->
@@ -41,6 +48,7 @@
           <div class="invalid-feedback" *ngIf="f['flight_name'].touched && f['flight_name'].invalid">
             Flight name is required
           </div>
+
         </div>
 
         <!-- Source -->
