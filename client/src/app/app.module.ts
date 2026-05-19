@@ -21,14 +21,14 @@ import { HttpService } from '../services/http.service';
 import { AuthService } from '../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { LandingComponent } from './component/landing/landing.component';
-
+import { ExploreFlightsComponent } from './component/explore-flights/explore-flights.component';
 @NgModule({
   declarations: [
     AppComponent, LoginComponent, RegisterComponent,
-    VerifyOtpComponent,ForgotPasswordComponent,
+    VerifyOtpComponent, ForgotPasswordComponent,
     DashboardComponent, FlightComponent, FlightSearchComponent,
     BookingsComponent, AssignPilotComponent, ProfilComponent,
-    ViewuserComponent, SeatSelectionComponent, LandingComponent
+    ViewuserComponent, SeatSelectionComponent, LandingComponent, ExploreFlightsComponent
   ],
   imports: [
     BrowserModule, AppRoutingModule, FormsModule, RouterModule,

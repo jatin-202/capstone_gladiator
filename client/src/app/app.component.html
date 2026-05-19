@@ -1,10 +1,25 @@
 <nav class="navbar navbar-expand-lg custom-navbar px-3">
   <a class="navbar-brand" routerLink="/dashboard">
-    RouteOne </a>
+    RouteOne
+  </a>
+
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav ms-auto">
 
-      <!-- Admin links -->
+      <!-- ✅ USER NAME (NOW CLICKABLE PROFILE BUTTON) -->
+      <li class="nav-item" *ngIf="isLoggedIn">
+        <div class="user-wrapper">
+
+          <div class="user-text">
+            <a class="user-name" routerLink="/my_profile">
+              {{ userName }}
+            </a>
+          </div>
+
+        </div>
+      </li>
+
+      <!-- ================= ADMIN ================= -->
       <ng-container *ngIf="isLoggedIn && role === 'ADMIN'">
         <li class="nav-item">
           <a class="nav-link" routerLink="/add_flights">Add Flights</a>
@@ -17,7 +32,7 @@
         </li>
       </ng-container>
 
-      <!-- Passenger links -->
+      <!-- ================= PASSENGER ================= -->
       <ng-container *ngIf="isLoggedIn && role === 'PASSENGER'">
         <li class="nav-item">
           <a class="nav-link" routerLink="/search_flight">Search Flights</a>
@@ -25,29 +40,27 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/my_booking">My Bookings</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/my_profile">My Profile</a>
-        </li>
+        <!-- ✅ REMOVED MY PROFILE ONLY -->
       </ng-container>
 
-      <!-- Pilot links -->
+      <!-- ================= PILOT ================= -->
       <ng-container *ngIf="isLoggedIn && role === 'PILOT'">
         <li class="nav-item">
           <a class="nav-link" routerLink="/assign_pilot">My Schedule</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/my_profile">My Profile</a>
-        </li>
+        <!-- ✅ REMOVED MY PROFILE ONLY -->
       </ng-container>
 
-      <!-- Not logged in -->
+      <!-- NOT LOGGED IN -->
       <li class="nav-item" *ngIf="!isLoggedIn">
         <a class="nav-link" routerLink="/login">Login</a>
       </li>
 
-      <!-- Logout -->
+      <!-- LOGOUT -->
       <li class="nav-item" *ngIf="isLoggedIn">
-        <button class="btn btn-outline-light btn-sm ms-2" (click)="logout()">Logout</button>
+        <button class="btn btn-outline-light btn-sm ms-2" (click)="logout()">
+          Logout
+        </button>
       </li>
 
     </ul>

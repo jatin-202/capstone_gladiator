@@ -1,0 +1,24 @@
+<div class="explore-page">
+  <h2>Explore Flights</h2>
+
+  <div class="flight-container">
+    <div class="flight-card" *ngFor="let f of flightsList">
+
+      <div class="route">
+        <span>{{ f.source }} </span>
+        <span class="arrow">➝</span>
+        <span>{{ f.destination }}</span>
+      </div>
+
+      <div class="flight-info">
+        <p>🕒 Time: {{ f.departureTime }}</p>
+        <p class="price">₹{{ f.price }}</p>
+      </div>
+
+      <button class="book-btn" (click)="bookNow(f)">
+        Book Now
+      </button>
+
+    </div>
+  </div>
+</div>

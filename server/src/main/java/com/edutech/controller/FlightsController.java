@@ -17,14 +17,11 @@ import com.edutech.entity.Flights;
 import com.edutech.service.FlightsService;
 
 @RestController
-@RequestMapping("/api/flights")
-@CrossOrigin(origins = "*")
-public class FlightsController {
+@RequestMapping("/api/flights") @CrossOrigin(origins = "*") public class FlightsController {
 
-    //Injecting service 
+    // Injecting service
     @Autowired
     private FlightsService flightsService;
-
 
     // Admin: Create a new flight
     @PostMapping
@@ -46,14 +43,14 @@ public class FlightsController {
     // Admin: Update an existing flight
     @PutMapping("/{id}")
     public ResponseEntity<Flights> updateFlight(@PathVariable Long id,
-                                                @Valid @RequestBody Flights flight) {
+            @Valid @RequestBody Flights flight) {
         return ResponseEntity.ok(flightsService.updateFlight(id, flight));
     }
 
     // Admin: Update flight status (SCHEDULED / DELAYED / CANCELLED)
     @PutMapping("/{id}/status")
     public ResponseEntity<String> updateFlightStatus(@PathVariable Long id,
-                                                     @RequestBody Map<String, String> body) {
+            @RequestBody Map<String, String> body) {
         flightsService.updateFlightStatus(id, body.get("status"));
         return ResponseEntity.ok("Flight status updated");
     }

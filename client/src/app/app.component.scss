@@ -12,14 +12,116 @@ $text-muted: rgba(255, 255, 255, 0.7);
 
 // NAVBAR BASE
 .custom-navbar {
-  background: linear-gradient(
-    135deg,
-    #02040c 0%,
-    #070b18 100%
-  );
+  background: linear-gradient(135deg,
+      #02040c 0%,
+      #070b18 100%);
   border-bottom: 1px solid rgba(245, 197, 66, 0.15);
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+.user-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 25px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+
+  transition: 0.3s;
+}
+
+/* hover effect */
+.user-wrapper:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+/* avatar */
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #facc15, #eab308);
+  color: black;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+  font-size: 0.95rem;
+
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+}
+
+/* text block */
+.user-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+/* username */
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* role */
+.user-role {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+.user-name {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.user-name:hover {
+  color: #facc15;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 15px;
+}
+
+/* Circle avatar */
+.avatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #eab308, #facc15);
+  color: #000;
+  border-radius: 50%;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Name + role */
+.user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #fff;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #cbd5e1;
 }
 
 // ================= LOGO STYLE =================
@@ -33,11 +135,9 @@ $text-muted: rgba(255, 255, 255, 0.7);
   font-size: 1.2rem;
   letter-spacing: 0.03em;
 
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    $gold
-  );
+  background: linear-gradient(90deg,
+      #ffffff,
+      $gold );
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

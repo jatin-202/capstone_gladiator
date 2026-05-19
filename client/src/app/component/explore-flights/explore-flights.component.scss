@@ -1,0 +1,87 @@
+/* Page background */
+.explore-page {
+    padding: 40px;
+    background: linear-gradient(135deg, #020617, #0b1120);
+    min-height: 100vh;
+    color: #fff;
+}
+
+/* Heading */
+.explore-page h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+    // color: #eab308;
+    /* gold */
+}
+
+/* Flight grid */
+.flight-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* Flight card */
+.flight-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+/* Hover effect */
+.flight-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Route */
+.route {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrow {
+    color: #eab308;
+}
+
+/* Time + price */
+.flight-info p {
+    margin: 5px 0;
+    color: #cbd5e1;
+    font-size: 0.95rem;
+}
+
+/* Price highlight */
+.price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #22c55e;
+    margin-top: 10px;
+}
+
+/* Button */
+.book-btn {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(to right, #eab308, #facc15);
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.book-btn:hover {
+    background: linear-gradient(to right, #facc15, #fde047);
+    transform: scale(1.05);
+}

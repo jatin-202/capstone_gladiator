@@ -12,8 +12,19 @@
     <div class="nav-links">
       <a (click)="scrollTo('features')">Features</a>
       <a (click)="scrollTo('destinations')">Destinations</a>
-      <a [routerLink]="['/login']">Sign In</a>
-      <a [routerLink]="['/register']">Register</a>
+      <!-- ✅ If NOT logged in -->
+      <ng-container *ngIf="!userName">
+        <a [routerLink]="['/login']">Sign In</a>
+        <a [routerLink]="['/register']">Register</a>
+      </ng-container>
+
+      <!-- ✅ If logged in -->
+      <ng-container *ngIf="userName">
+        <span class="user-info">
+          Hi {{ userName }} - {{ role }}
+        </span>
+      </ng-container>
+      <a [routerLink]="['/flights']">Flights</a>
     </div>
   </nav>
 
@@ -86,35 +97,19 @@
     <h2>Popular <span>Destinations</span></h2>
     <p class="section-sub">Explore our most booked routes this season</p>
     <div class="dest-grid">
-      <div class="dest-card">
-        <img src="assets/flight1.png" alt="Paris" />
+      <div class="dest-card" *ngFor="let d of destinations; let i = index">
+
+        <!-- ✅ Random image (cycle from 1 to 4) -->
+        <img [src]="'assets/flight' + ((i % 4) + 1) + '.jpg'" />
+
         <div class="dest-info">
-          <h3>Paris</h3>
-          <p>From ₹32,000</p>
+          <h3>{{ d.source }} → {{ d.destination }}</h3>
+          <p>From ₹{{ d.price }}</p>
         </div>
-      </div>
-      <div class="dest-card">
-        <img src="assets/flight-logo.jpg" alt="Dubai" />
-        <div class="dest-info">
-          <h3>Dubai</h3>
-          <p>From ₹18,000</p>
-        </div>
-      </div>
-      <div class="dest-card">
-        <img src="assets/flight2.jpg" alt="Tokyo" />
-        <div class="dest-info">
-          <h3>Tokyo</h3>
-          <p>From ₹45,000</p>
-        </div>
-      </div>
-      <div class="dest-card">
-        <img src="assets/flight3.jpg" alt="New York" />
-        <div class="dest-info">
-          <h3>New York</h3>
-          <p>From ₹55,000</p>
-        </div>
+
       </div>
     </div>
+
   </section>
 
   <!-- FOOTER -->

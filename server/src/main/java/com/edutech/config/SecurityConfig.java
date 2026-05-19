@@ -55,9 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-    "/api/auth/forgot-password",
-    "/api/auth/reset-password"
-).permitAll()
+                        "/api/auth/forgot-password",
+                        "/api/auth/reset-password")
+                .permitAll()
 
                 // ✅ Public APIs
                 .antMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
@@ -71,10 +71,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/auth/verify-register-otp",
                         "/api/auth/verify-login-otp")
                 .permitAll()
-                
+                // .antMatchers(HttpMethod.GET, "/api/explore-flights/**").permitAll()
+
                 // ✅ ✅ ADD THIS (FIX FOR YOUR ISSUE)
                 // Allow GET APIs for ADMIN and PILOT
-                .antMatchers(HttpMethod.GET, "/api/flights").hasAnyAuthority("ADMIN", "PILOT")
+                // .antMatchers(HttpMethod.GET, "/api/flights").hasAnyAuthority("ADMIN",
+                // "PILOT")
+                .antMatchers(HttpMethod.GET, "/api/flights").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/pilot/schedule/**").hasAnyAuthority("ADMIN", "PILOT")
 
                 // ✅ Admin-only: create / update flights

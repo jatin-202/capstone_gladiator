@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(public authService: AuthService, private router: Router) {}
+  userName: string = '';
+
+  ngOnInit(): void {
+    const name = localStorage.getItem('username') || '';
+    this.userName = name.charAt(0).toUpperCase() + name.slice(1);
+
+  }
 
   get role(): string {
-    return this.authService.getRole;
+    return localStorage.getItem('role') || '';
   }
 
   get isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
+    return !!localStorage.getItem('token');
   }
 
   logout(): void {
-    this.authService.logout();
+    localStorage.clear();
     location.reload();
   }
 }

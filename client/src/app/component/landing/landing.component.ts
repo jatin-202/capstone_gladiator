@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FlightService } from '../../services/flight.service';
 
 @Component({
   selector: 'app-landing',
@@ -12,12 +13,30 @@ export class LandingComponent implements OnInit {
 
   showLoader = false;
   fadeLoader = false;
+  destinations: any[] = []
 
-  constructor(private router: Router) {}
+  userName: string = '';
+  role: string = '';
+
+  constructor(private router: Router, private flightService: FlightService) { }
 
   ngOnInit(): void {
 
-    // ✅ show loader ONLY first time
+    // ✅ fetch flights (already there)
+    this.flightService.getAllFlights().subscribe(data => {
+      this.destinations = data;
+    });
+
+    // ✅ ✅ ADD THIS (for user info)
+    const user = localStorage.getItem('user');
+
+    if (user) {
+      const parsed = JSON.parse(user);
+      this.userName = parsed.username;
+      this.role = parsed.role;
+    }
+
+    // ✅ loader logic (already there)
     if (!LandingComponent.loaderShown) {
       this.showLoader = true;
 

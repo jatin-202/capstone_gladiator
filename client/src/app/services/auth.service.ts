@@ -10,7 +10,7 @@ export class AuthService {
 
   private baseUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getToken(): string {
     return localStorage.getItem('token') || '';
@@ -49,10 +49,30 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUrl}/api/auth/verify-login-otp`, { email, otp });
   }
   forgotPassword(email: string): Observable<any> {
-  return this.http.post(`${this.baseUrl}/api/auth/forgot-password`, { email });
-}
+    return this.http.post(`${this.baseUrl}/api/auth/forgot-password`, { email });
+  }
 
-resetPassword(email: string, otp: string, newPassword: string): Observable<any> {
-  return this.http.post(`${this.baseUrl}/api/auth/reset-password`, { email, otp, newPassword });
-}
+  resetPassword(email: string, otp: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/auth/reset-password`, { email, otp, newPassword });
+  }
+
+  // ✅ Check login status
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  // ✅ Get role
+  getRole(): string {
+    return localStorage.getItem('role') || '';
+  }
+
+  // ✅ Get username (optional but useful)
+  getUsername(): string {
+    return localStorage.getItem('username') || '';
+  }
+
+  // ✅ Logout
+  logout(): void {
+    localStorage.clear();
+  }
 }
