@@ -12,7 +12,7 @@ import { ProfilComponent } from './component/profil/profil.component';
 import { ViewuserComponent } from './component/viewuser/viewuser.component';
 import { AuthGuard } from './auth.guard';
 import { LandingComponent } from './component/landing/landing.component';
-
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
@@ -24,6 +24,7 @@ const routes: Routes = [
   { path: 'search_flight', component: FlightSearchComponent, canActivate: [AuthGuard] },
   { path: 'my_booking', component: BookingsComponent, canActivate: [AuthGuard] },
   { path: 'my_profile', component: ProfilComponent, canActivate: [AuthGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', component: LandingComponent }
 ];
 

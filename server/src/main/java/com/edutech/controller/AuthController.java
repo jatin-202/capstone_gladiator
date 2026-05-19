@@ -1,5 +1,7 @@
 package com.edutech.controller;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import com.edutech.dto.ForgotPasswordDTO;
 import com.edutech.dto.LoginRequest;
 import com.edutech.dto.LoginResponse;
 import com.edutech.dto.OtpRequest;
@@ -72,8 +75,7 @@ public class AuthController {
                             "message", "OTP sent to your email",
                             "email", saved.getEmail(),
                             "username", saved.getUsername(),
-                            "otpRequired", true
-                    ));
+                            "otpRequired", true));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,8 +113,7 @@ public class AuthController {
                     "message", "OTP sent to your email",
                     "email", user.getEmail(),
                     "username", user.getUsername(),
-                    "otpRequired", true
-            ));
+                    "otpRequired", true));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,5 +181,24 @@ public class AuthController {
     public ResponseEntity<Boolean> checkEmail(@PathVariable String email) {
         boolean exists = userService.existsByEmail(email);
         return ResponseEntity.ok(exists);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordDTO dto) {
+
+        userService.sendPasswordResetOtp(dto.getEmail());
+
+        return ResponseEntity.ok(Map.of("message", "OTP sent to your email"));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ForgotPasswordDTO dto) {
+
+        userService.resetPasswordWithOtp(
+                dto.getEmail(),
+                dto.getOtp(),
+                dto.getNewPassword());
+
+        return ResponseEntity.ok(Map.of("message", "Password reset successful"));
     }
 }

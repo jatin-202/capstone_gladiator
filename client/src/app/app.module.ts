@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -25,7 +25,7 @@ import { LandingComponent } from './component/landing/landing.component';
 @NgModule({
   declarations: [
     AppComponent, LoginComponent, RegisterComponent,
-    VerifyOtpComponent,
+    VerifyOtpComponent,ForgotPasswordComponent,
     DashboardComponent, FlightComponent, FlightSearchComponent,
     BookingsComponent, AssignPilotComponent, ProfilComponent,
     ViewuserComponent, SeatSelectionComponent, LandingComponent

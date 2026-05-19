@@ -48,4 +48,11 @@ export class AuthService {
   verifyLoginOtp(email: string, otp: string): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/api/auth/verify-login-otp`, { email, otp });
   }
+  forgotPassword(email: string): Observable<any> {
+  return this.http.post(`${this.baseUrl}/api/auth/forgot-password`, { email });
+}
+
+resetPassword(email: string, otp: string, newPassword: string): Observable<any> {
+  return this.http.post(`${this.baseUrl}/api/auth/reset-password`, { email, otp, newPassword });
+}
 }

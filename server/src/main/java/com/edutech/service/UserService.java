@@ -1,6 +1,8 @@
 package com.edutech.service;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,10 +17,11 @@ import com.edutech.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
-
+    private Map<String, String> otpStorage = new HashMap<>();
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -41,9 +44,10 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
     public User findByEmail(String email) {
-    return userRepository.findByEmail(email);
-}
+        return userRepository.findByEmail(email);
+    }
 
     // Find a user by username
     public User findByUsername(String username) {
@@ -66,4 +70,38 @@ public class UserService implements UserDetailsService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
+   public void sendPasswordResetOtp(String email) {
+
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+        throw new RuntimeException("Email not registered");
+    }
+
+    String otp = String.valueOf((int) (Math.random() * 900000) + 100000);
+
+    otpStorage.put(email, otp);
+
+    emailService.sendOtpEmail(email, otp);
+}
+
+    public void resetPasswordWithOtp(String email, String otp, String newPassword) {
+
+        String storedOtp = otpStorage.get(email);
+
+        if (storedOtp == null || !storedOtp.equals(otp)) {
+            throw new RuntimeException("Invalid or expired OTP");
+        }
+
+        User user = userRepository.findByEmail(email);
+if (user == null) {
+    throw new RuntimeException("User not found");
+}
+
+user.setPassword(passwordEncoder.encode(newPassword));
+userRepository.save(user);
+
+otpStorage.remove(email);
+    }
+
 }

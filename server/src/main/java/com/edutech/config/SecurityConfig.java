@@ -54,6 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(
+    "/api/auth/forgot-password",
+    "/api/auth/reset-password"
+).permitAll()
 
                 // ✅ Public APIs
                 .antMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
@@ -67,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/auth/verify-register-otp",
                         "/api/auth/verify-login-otp")
                 .permitAll()
+                
                 // ✅ ✅ ADD THIS (FIX FOR YOUR ISSUE)
                 // Allow GET APIs for ADMIN and PILOT
                 .antMatchers(HttpMethod.GET, "/api/flights").hasAnyAuthority("ADMIN", "PILOT")
