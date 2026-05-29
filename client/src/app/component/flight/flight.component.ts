@@ -48,7 +48,7 @@ export class FlightComponent implements OnInit {
           Validators.minLength(3),
           Validators.maxLength(6)
         ],
-        [this.flightNumberValidator()] // ✅ ASYNC VALIDATOR
+        [this.flightNumberValidator()] //  ASYNC VALIDATOR
       ],
 
       flight_name: ['', [Validators.required, Validators.minLength(3)]],
